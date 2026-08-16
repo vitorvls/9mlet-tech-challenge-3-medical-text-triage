@@ -23,6 +23,7 @@ Antes de implementar funcionalidade relevante, a IA **deve** consultar:
 5. **Sem stack legada:** não reintroduzir Node/Express/npm CLI/SetAI/JWT/DB como padrão.
 
 6. Código gerado entra no ciclo normal: review, testes, documentação.
+7. **Documentação por etapa é obrigatória:** ao implementar, gravar `docs/etapas/<trilha>/etapa-NN.md` e só então marcar o TODO. Ver `rules/documentation-rules.md`. Trilhas: Modelagem e otimização (Vítor), API e Docker (Vini), Monitoramento (Fernando), CI-CD Airflow e documentacao (Edu).
 
 ---
 
@@ -33,6 +34,7 @@ Antes de implementar funcionalidade relevante, a IA **deve** consultar:
 - [ ] Se PENDENTE: parei e pedi decisão humana (não escolhi silenciosamente)
 - [ ] A mudança ajuda algum critério de avaliação (pesos)?
 - [ ] Não estou adicionando frontend/DB/auth/K8s sem justificativa explícita
+- [ ] Vou criar/atualizar `docs/etapas/<trilha>/etapa-NN.md` nesta mesma etapa (senão a tarefa não está concluída)
 
 ---
 
@@ -42,6 +44,7 @@ Antes de implementar funcionalidade relevante, a IA **deve** consultar:
 - Implementar código alinhado à stack Python/FastAPI
 - Escrever testes (pytest como caminho natural)
 - Documentar README, evidências de latência, dashboards
+- Documentar cada etapa em `docs/etapas/` (didático; modelagem com métricas explicadas)
 - Refatorar sem mudar comportamento
 - Validar aderência às 4 etapas (`architecture-review`, `pre-delivery-validation`)
 
@@ -83,3 +86,4 @@ Ver `.cursor/libs/ai-models.md` (LLMs de assistência ao desenvolvimento — **n
 - **Code Style:** `.cursor/rules/code-style.md`
 - **Testing:** `.cursor/rules/testing-rules.md`
 - **AI Models (assistants):** `.cursor/libs/ai-models.md`
+- **Documentation:** `.cursor/rules/documentation-rules.md`

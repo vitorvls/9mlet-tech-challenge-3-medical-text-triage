@@ -80,7 +80,7 @@ Ver FORA DO ESCOPO em `tech-challenge-requirements.md`.
 4. API retorna a classificação (e métricas internas são atualizadas).
 5. Prometheus coleta métricas; Grafana exibe painéis.
 
-Contrato detalhado de path/schema: **PENDENTE DE DECISÃO** (PDF define apenas texto → classificação).
+Contrato JSON (`text` → `label` + `confidence`): **DECISÃO DO PROJETO** (`docs/TODO.md` §0.2). Path HTTP / status codes: ainda com o Vini (sugestão `POST /predict`).
 
 ---
 
@@ -90,7 +90,7 @@ DAG Airflow funcional relacionada a treino/retreino.
 
 **EXEMPLO FIAP (não obrigar esta forma exata):** carregamento de dados → treino → salvamento do modelo.
 
-Artefatos de modelo devem poder ser usados pela API de inferência (detalhe de paths: PENDENTE).
+Artefato de inferência: `models/baseline.joblib` (Pipeline sklearn). A DAG deve gravar no mesmo path.
 
 ---
 
@@ -103,7 +103,7 @@ Artefatos de modelo devem poder ser usados pela API de inferência (detalhe de p
 
 ≥1 técnica de otimização: OBRIGATÓRIO.  
 ONNX / quantização / pruning: EXEMPLO FIAP.  
-Técnica concreta: **PENDENTE DE DECISÃO**.
+Técnica concreta: **PROPOSTA** ONNX Runtime (Semana C) — time ainda não confirmou.
 
 ---
 
@@ -132,7 +132,7 @@ Execução do desafio: **local** via Docker / Docker Compose.
 
 ### Pendentes
 
-Ver `tech-challenge-requirements.md` §15 (dataset, algoritmo, otimização, layout de pastas, contrato da API, etc.).
+Ver `tech-challenge-requirements.md` §15 e `docs/TODO.md` §0.2. Dataset, labels, algoritmo e path do modelo já fechados. Restam otimização (proposta ONNX), linter, cloud documental, path HTTP e layout do restante do repo.
 
 ### Trade-offs conscientes
 

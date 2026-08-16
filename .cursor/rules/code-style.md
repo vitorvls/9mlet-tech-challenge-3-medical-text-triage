@@ -28,6 +28,7 @@ Padrões de código para o projeto Python do Tech Challenge.
 - **Código** (nomes, mensagens de log/erro em código, docstrings): inglês
 - **Comentários inline** explicativos: pt-BR quando necessários
 - **Documentação de usuário** (README): pode ser pt-BR
+- **Trilha de etapas** (`docs/etapas/**/*.md`): pt-BR, didática; obrigatória para concluir a etapa (ver `documentation-rules.md`)
 
 ### Comments
 
@@ -68,3 +69,4 @@ Padrões de código para o projeto Python do Tech Challenge.
 - **Testing:** `.cursor/rules/testing-rules.md`
 - **Git:** `.cursor/rules/git-rules.md`
 - **Requirements:** `.cursor/context/tech-challenge-requirements.md`
+- **Documentation:** `.cursor/rules/documentation-rules.md`

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medical-text-triage"
+version = "0.1.0"
+description = "Classificador NLP leve de laudo para urgência (FIAP Tech Challenge 3)."
+readme = "README.md"
+requires-python = "==3.11.9"
+dependencies = [
+    "pandas==2.3.3",
+    "scikit-learn==1.9.0",
+    "joblib==1.5.3",
+]
+
+[project.optional-dependencies]
+# FastAPI, prometheus_client, Airflow e ONNX entram nas trilhas dos colegas / Semana C.
+
+[tool.setuptools.packages.find]
+where = ["src"]
