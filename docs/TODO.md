@@ -297,43 +297,43 @@ Você cria o serviço web: alguém manda o texto do laudo e recebe a classifica�
 
 #### N1. Skeleton da API (pode começar com mock)
 
-- [ ] Projeto FastAPI mínimo
-- [ ] Endpoint de health (ex.: `GET /health`) — recomendado
-- [ ] Endpoint de classificação conforme o contrato (ex.: `POST /predict`)
-- [ ] Validação do input (texto vazio, tipo errado, etc.)
-- [ ] Enquanto o modelo não chega: mock previsível (ex.: sempre uma label fixa ou regra simples)
+- [x] Projeto FastAPI mínimo
+- [x] Endpoint de health (ex.: `GET /health`) — recomendado
+- [x] Endpoint de classificação conforme o contrato (ex.: `POST /predict`)
+- [x] Validação do input (texto vazio, tipo errado, etc.)
+- [x] Enquanto o modelo não chega: mock previsível (ex.: sempre uma label fixa ou regra simples)
 
 **Entregável:** API rodando localmente com o contrato fechado.
 
 #### N2. Integração com o modelo do Vítor
 
-- [ ] Trocar mock pelo `predict` real
-- [ ] Tratar erro se o modelo não carregar
-- [ ] Testar com textos reais do dataset
+- [x] Trocar mock pelo `predict` real
+- [x] Tratar erro se o modelo não carregar
+- [x] Testar com textos reais do dataset
 
 **Bloqueia:** Fernando (métricas reais em cima da API) e baseline séria.
 
 #### N3. Docker da API
 
-- [ ] `Dockerfile` funcional
-- [ ] Documentar: build + run
-- [ ] Confirmar que a API responde **dentro** do container
+- [x] `Dockerfile` funcional
+- [x] Documentar: build + run
+- [x] Confirmar que a API responde **dentro** do container
 
 **Entregável:** API empacotada em Docker.
 
 #### N4. Baseline de latência (Etapa 1 do desafio)
 
-- [ ] Definir método de medição (ex.: N requisições locais e média/p95)
-- [ ] Medir latência da API em Docker (modelo ainda sem otimização final)
-- [ ] Registrar números em `evidencias/` (tabela simples)
+- [x] Definir método de medição (ex.: N requisições locais e média/p95)
+- [x] Medir latência da API em Docker (modelo ainda sem otimização final)
+- [x] Registrar números em `evidencias/` (tabela simples)
 
 **Entregável:** números de baseline documentados.
 
 ### Checkpoint Vini A — “API sobe e responde”
 
-- [ ] Contrato da API estável
-- [ ] Docker build/run ok
-- [ ] Baseline de latência registrada
+- [x] Contrato da API estável
+- [x] Docker build/run ok
+- [x] Baseline de latência registrada
 
 ---
 
@@ -570,7 +570,7 @@ Use esta lista na daily / sync semanal.
 |----|------|-------------------|--------|
 | C0 | Kickoff | Decisões pendentes fechadas | `[ ]` PARCIAL — modelo desbloqueado; falta Edu |
 | CA-Vítor | Modelo baseline | Treina, salva, `predict` ok | `[x]` 2026-08-15 |
-| CA-Vini | API + Docker + baseline | API em Docker + latência inicial | `[ ]` |
+| CA-Vini | API + Docker + baseline | API em Docker + latência inicial | `[x]` 2026-08-18 |
 | CA-Fernando | Monitoramento | Compose + ≥3 painéis | `[ ]` |
 | CA-Edu | CI + DAG + cloud draft | Actions ≥2 + DAG + texto cloud | `[ ]` |
 | C2 | Integração | Texto→classe real + métricas + DAG + CI | `[ ]` |
@@ -693,7 +693,7 @@ LLM (OpenRouter etc.) é um **segundo extra** em cima desta page: só conversa; 
 | Pessoa | Foco agora | Bloqueio | Próximo checkpoint |
 |--------|------------|----------|--------------------|
 | Vítor | CA-Vítor fechado; próximo = otimização (Semana C / Etapas 06–07) | — | CC-Vítor |
-| Vini | | | CA-Vini |
+| Vini | CA-Vini fechado; próximo = integração (Semana B) | — | C2 |
 | Fernando | | | CA-Fernando |
 | Edu | | | CA-Edu |
 
