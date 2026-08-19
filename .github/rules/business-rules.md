@@ -24,14 +24,17 @@ Requisitos tipados: `.github/context/tech-challenge-requirements.md`.
 
 ### BR-2 — Labels de urgência
 
-- O PDF exemplifica: `normal` / `atenção` / `urgente` (**EXEMPLO FIAP**).
-- Labels finais do modelo: **PENDENTE DE DECISÃO** (dependem do dataset). Até lá, não fixar contrato definitivo além do exemplo.
+- Labels do modelo: `normal` / `atenção` / `urgente` (**DECISÃO DO PROJETO**, 2026-08-15).
+- Origem: `ADMISSIONS.admission_type` → `ELECTIVE`=`normal`, `URGENT`=`atenção`, `EMERGENCY`=`urgente`.
+- O PDF usava as mesmas três palavras como **EXEMPLO**; agora são o contrato do projeto.
+- Não emitir outras classes. Não tratar a label como diagnóstico clínico.
 
 ### BR-3 — Entrada e saída da API
 
-- Entrada: texto do laudo.
-- Saída: classificação (urgência/target).
-- Schema JSON, paths e códigos HTTP detalhados: **PENDENTE DE DECISÃO**.
+- Entrada JSON: `{ "text": "<laudo>" }`.
+- Saída JSON de sucesso: `{ "label": "normal|atenção|urgente", "confidence": <0..1> }`.
+- Função de domínio: `predict(text: str) -> {label, confidence}`.
+- Path HTTP e códigos de status: ainda com o Vini (sugestão `POST /predict`).
 
 ### BR-4 — Validação de input
 

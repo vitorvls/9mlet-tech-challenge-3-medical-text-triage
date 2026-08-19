@@ -39,9 +39,14 @@ Docker / Docker Compose / GitHub Actions: ferramentas de entrega (ver `tech-stac
 
 ## PROJECT DECISION
 
-Nenhuma lib opcional de domínio foi fechada ainda além do que o PDF exige.
+| Biblioteca / tecnologia | Uso |
+|-------------------------|-----|
+| `scikit-learn` | TF-IDF + Logistic Regression (baseline Fase 1) |
+| `joblib` | Serializar/carregar `models/baseline.joblib` |
+| `pandas` | Preparar dataset (texto + label) |
+| `pip` + `pyproject.toml` + `.venv` | Empacotamento e isolamento (2026-08-15) |
 
-Quando o time decidir, mover itens de PENDENTE para cá e atualizar `tech-stack.md`.
+Quando o time decidir otimização/linter, mover itens restantes para cá e atualizar `tech-stack.md`.
 
 ---
 
@@ -50,11 +55,11 @@ Quando o time decidir, mover itens de PENDENTE para cá e atualizar `tech-stack.
 | Área | Exemplos | Status |
 |------|----------|--------|
 | Validação | `pydantic` (já usado por FastAPI) | Aceitável via FastAPI |
-| Dados / treino | `pandas`, `numpy` | Comum com sklearn; confirmar na implementação |
-| Otimização | `onnx`, `onnxruntime`, libs de quantização/pruning | Condicional à técnica escolhida (PENDENTE) |
+| Dados / treino | `pandas`, `numpy` | **DECISÃO DO PROJETO** — `pandas` no prepare/train |
+| Otimização | `onnx`, `onnxruntime`, libs de quantização/pruning | Condicional; **proposta** ONNX (ainda não confirmada) |
 | Lint/format | `ruff`, `black`, `isort`, `flake8` | PENDENTE DE DECISÃO |
 | HTTP client em testes | `httpx` | Comum com FastAPI TestClient; decidir na implementação |
-| Empacotamento | `pip`+requirements, `poetry`, `uv` | PENDENTE DE DECISÃO |
+| Empacotamento | Poetry / uv | Não adotados; o projeto usa `pip` + `pyproject.toml` |
 
 ---
 

@@ -62,6 +62,7 @@ Quando estiver executando tarefas no projeto, consulte os arquivos relevantes ne
    - [security-rules.md](file:///.github/rules/security-rules.md) (Segurança e validação)
    - [git-rules.md](file:///.github/rules/git-rules.md) (Convenções de commits)
    - [ai-usage-rules.md](file:///.github/rules/ai-usage-rules.md) (Contrato com a IA)
+   - [documentation-rules.md](file:///.github/rules/documentation-rules.md) (docs/etapas por integrante; etapa incompleta sem o `.md`)
 8. Dependências permitidas e proibidas:
    - [allowed-libs.md](file:///.github/libs/allowed-libs.md)
    - [forbidden-libs.md](file:///.github/libs/forbidden-libs.md)
@@ -88,7 +89,7 @@ Os prompts pré-configurados estão disponíveis em `.github/prompts/` (e espelh
 
 ## 6. Convenções de Código
 
-- Linguagem: **Python 3.10+**
+- Linguagem: **Python 3.11.9** (`pyproject.toml` / `.python-version`)
 - Estilo: PEP 8, type hints em todas as funções publicas.
 - Testes: `pytest`
 - API Framework: `FastAPI` + `uvicorn`

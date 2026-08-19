@@ -1,0 +1,618 @@
+text,label
+"Diagnosis: PULMONARY EDEMA, MI
+Sex: F
+Age: 73
+Abnormal lab results:
+- Calcium, Total: 8.2 mg/dL (abnormal)
+- Glucose: 170 mg/dL (abnormal)
+- Potassium: 3.0 mEq/L (abnormal)
+- Hematocrit: 29.6 % (abnormal)
+- Hemoglobin: 10.2 g/dL (abnormal)
+- PT: 13.2 SECONDS (abnormal)
+- RDW: 16.0 % (abnormal)
+- Red Blood Cells: 3.52 m/uL (abnormal)
+- White Blood Cells: 11.4 K/uL (abnormal)
+- RBC: >1000 #/hpf (abnormal)
+- WBC: 11 #/hpf (abnormal)
+- Phosphate: 2.0 mg/dL (abnormal)
+- Troponin I: 5.9 ng/ml (abnormal)
+- Lymphocytes: 9.0 % (abnormal)
+- Neutrophils: 85.5 % (abnormal)
+- Creatinine: 1.4 mg/dL (abnormal)
+- Urea Nitrogen: 23 mg/dL (abnormal)
+- Bicarbonate: 19 mEq/L (abnormal)
+- Thyroid Stimulating Hormone: 11 uU/ML (abnormal)
+- Chloride: 97 mEq/L (abnormal)",atenção
+"Diagnosis: TRACHEAL ESOPHAGEAL FISTULA
+Sex: F
+Age: 77
+Abnormal lab results:
+- Albumin: 2.9 g/dL (abnormal)
+- Calcium, Total: 7.9 mg/dL (abnormal)
+- Chloride: 109 mEq/L (abnormal)
+- Urea Nitrogen: 47 mg/dL (abnormal)
+- Hematocrit: 26.6 % (abnormal)
+- Hemoglobin: 8.8 g/dL (abnormal)
+- Platelet Count: 95 K/uL (abnormal)
+- PTT: 53.3 sec (abnormal)
+- RDW: 20.6 % (abnormal)
+- Red Blood Cells: 2.94 m/uL (abnormal)
+- pCO2: 48 mm Hg (abnormal)
+- pO2: 213 mm Hg (abnormal)
+- Glucose: 118 mg/dL (abnormal)
+- pH: 7.52 units (abnormal)
+- Free Calcium: 1.09 mmol/L (abnormal)
+- Potassium, Whole Blood: 3.4 mEq/L (abnormal)
+- Magnesium: 1.5 mg/dL (abnormal)
+- Vancomycin: 22.4 ug/mL (abnormal)
+- Lymphocytes: 13 % (abnormal)
+- Macrophages: 3 % (abnormal)",urgente
+"Diagnosis: CONGESTIVE HEART FAILURE
+Sex: F
+Age: 83
+Abnormal lab results:
+- Alkaline Phosphatase: 188 IU/L (abnormal)
+- Chloride: 94 mEq/L (abnormal)
+- Creatinine: 1.3 mg/dL (abnormal)
+- Glucose: 176 mg/dL (abnormal)
+- Magnesium: 2.7 mg/dL (abnormal)
+- NTproBNP: 3541 pg/mL (abnormal)
+- Potassium: 5.5 mEq/L (abnormal)
+- Sodium: 131 mEq/L (abnormal)
+- Troponin T: 0.06 ng/mL (abnormal)
+- Urea Nitrogen: 31 mg/dL (abnormal)
+- D-Dimer: 3242 ng/mL (abnormal)
+- Hematocrit: 32.1 % (abnormal)
+- Hemoglobin: 10.5 g/dL (abnormal)
+- Lymphocytes: 11.7 % (abnormal)
+- MCH: 32.1 pg (abnormal)
+- Neutrophils: 81.3 % (abnormal)
+- RDW: 17.0 % (abnormal)
+- Red Blood Cells: 3.28 m/uL (abnormal)
+- WBC: 6-10 #/hpf (abnormal)
+- INR(PT): 6.0 nan (abnormal)",urgente
+"Diagnosis: FAILURE TO THRIVE
+Sex: F
+Age: 81
+Abnormal lab results:
+- Calcium, Total: 7.8 mg/dL (abnormal)
+- Creatinine: 3.2 mg/dL (abnormal)
+- Glucose: 193 mg/dL (abnormal)
+- Phosphate: 6.2 mg/dL (abnormal)
+- Troponin T: 0.02 ng/mL (abnormal)
+- Urea Nitrogen: 97 mg/dL (abnormal)
+- Hematocrit: 26.3 % (abnormal)
+- Hemoglobin: 8.9 g/dL (abnormal)
+- INR(PT): 1.8 nan (abnormal)
+- Lymphocytes: 14.6 % (abnormal)
+- Monocytes: 0.6 % (abnormal)
+- Neutrophils: 84.6 % (abnormal)
+- PT: 18.9 sec (abnormal)
+- Red Blood Cells: 3.09 m/uL (abnormal)
+- Free Calcium: 1.10 mmol/L (abnormal)
+- pCO2: 53 mm Hg (abnormal)
+- pH: 7.24 units (abnormal)
+- pO2: 42 mm Hg (abnormal)
+- MCHC: 35.3 % (abnormal)
+- Chloride: 109 mEq/L (abnormal)",urgente
+"Diagnosis: SEPSIS
+Sex: F
+Age: 87
+Abnormal lab results:
+- Asparate Aminotransferase (AST): 77 IU/L (abnormal)
+- Chloride: 98 mEq/L (abnormal)
+- CK-MB Index: 17.7 % (abnormal)
+- Creatine Kinase (CK): 440 IU/L (abnormal)
+- Creatine Kinase, MB Isoenzyme: 78 ng/mL (abnormal)
+- Creatinine: 1.7 mg/dL (abnormal)
+- Glucose: 165 mg/dL (abnormal)
+- Magnesium: 1.3 mg/dL (abnormal)
+- Urea Nitrogen: 32 mg/dL (abnormal)
+- Bands: 13 % (abnormal)
+- Hematocrit: 29.2 % (abnormal)
+- Hemoglobin: 9.0 g/dL (abnormal)
+- Lymphocytes: 6 % (abnormal)
+- MCH: 25.8 pg (abnormal)
+- MCHC: 30.8 % (abnormal)
+- Neutrophils: 74 % (abnormal)
+- PT: 14.6 SECONDS (abnormal)
+- Red Blood Cells: 3.48 m/uL (abnormal)
+- White Blood Cells: 16.2 K/uL (abnormal)
+- RBC: 6-10 #/hpf (abnormal)",urgente
+"Diagnosis: ABSCESS
+Sex: M
+Age: 52
+Abnormal lab results:
+- Chloride: 88 mEq/L (abnormal)
+- Sodium: 126 mEq/L (abnormal)
+- Bands: 7 % (abnormal)
+- Hematocrit: 31.0 % (abnormal)
+- Hemoglobin: 10.0 g/dL (abnormal)
+- Lymphocytes: 4 % (abnormal)
+- MCH: 23.2 pg (abnormal)
+- MCV: 72 fL (abnormal)
+- Neutrophils: 85 % (abnormal)
+- Platelet Count: 450 K/uL (abnormal)
+- RDW: 17.1 % (abnormal)
+- Red Blood Cells: 4.31 m/uL (abnormal)
+- PT: 19.7 SECONDS (abnormal)
+- Glucose: 65 mg/dL (abnormal)
+- Calcium, Total: 6.9 mg/dL (abnormal)
+- Potassium: 3.2 mEq/L (abnormal)
+- Albumin: 1.5 g/dL (abnormal)
+- Free Calcium: 1.08 mmol/L (abnormal)
+- White Blood Cells: 11.5 K/uL (abnormal)
+- Magnesium: 1.3 mg/dL (abnormal)",urgente
+"Diagnosis: PNEUMONIA
+Sex: M
+Age: 64
+Abnormal lab results:
+- Hematocrit: 32.9 % (abnormal)
+- Hemoglobin: 10.5 g/dL (abnormal)
+- Lymphocytes: 8.8 % (abnormal)
+- MCH: 23.0 pg (abnormal)
+- MCV: 72 fL (abnormal)
+- Neutrophils: 86.9 % (abnormal)
+- Red Blood Cells: 4.56 m/uL (abnormal)
+- White Blood Cells: 21.9 K/uL (abnormal)
+- Glucose: 186 mg/dL (abnormal)
+- Urea Nitrogen: 24 mg/dL (abnormal)
+- INR(PT): 2.8 nan (abnormal)
+- PT: 28.3 sec (abnormal)
+- Calcium, Total: 6.7 mg/dL (abnormal)
+- Chloride: 112 mEq/L (abnormal)
+- Creatinine: 0.3 mg/dL (abnormal)
+- Magnesium: 1.5 mg/dL (abnormal)
+- Phosphate: 2.2 mg/dL (abnormal)
+- MCHC: 30.9 % (abnormal)
+- PTT: 37.1 sec (abnormal)
+- Vancomycin: 20.6 ug/mL (abnormal)",urgente
+"Diagnosis: SEPSIS
+Sex: M
+Age: 65
+Abnormal lab results:
+- Glucose: 214 mg/dL (abnormal)
+- Potassium: 6.2 mEq/L (abnormal)
+- Urea Nitrogen: 29 mg/dL (abnormal)
+- Hemoglobin: 12.5 g/dL (abnormal)
+- Lymphocytes: 3 % (abnormal)
+- MCH: 22.3 pg (abnormal)
+- MCV: 72 fL (abnormal)
+- Neutrophils: 89 % (abnormal)
+- RDW: 16.2 % (abnormal)
+- White Blood Cells: 30.4 K/uL (abnormal)
+- Hyaline Casts: 2 #/lpf (abnormal)
+- RBC: 3 #/hpf (abnormal)
+- INR(PT): 2.6 nan (abnormal)
+- PT: 26.7 sec (abnormal)
+- Hematocrit: 32.2 % (abnormal)
+- Red Blood Cells: 4.48 m/uL (abnormal)
+- Calcium, Total: 7.4 mg/dL (abnormal)
+- Chloride: 110 mEq/L (abnormal)
+- Phosphate: 2.3 mg/dL (abnormal)
+- pCO2: 54 mm Hg (abnormal)",urgente
+"Diagnosis: LEFT HIP OA
+Sex: F
+Age: 84
+Abnormal lab results:
+- Hemoglobin: 10.6 g/dL (abnormal)
+- Hematocrit: 24.6 % (abnormal)
+- pO2: 146 mm Hg (abnormal)
+- Bicarbonate: 19 mEq/L (abnormal)
+- Calcium, Total: 8.0 mg/dL (abnormal)
+- Creatinine: 1.3 mg/dL (abnormal)
+- Iron Binding Capacity, Total: 208 ug/dL (abnormal)
+- Magnesium: 1.5 mg/dL (abnormal)
+- Phosphate: 4.6 mg/dL (abnormal)
+- Potassium: 5.5 mEq/L (abnormal)
+- Transferrin: 160 mg/dL (abnormal)
+- Urea Nitrogen: 22 mg/dL (abnormal)
+- Platelet Count: 144 K/uL (abnormal)
+- Red Blood Cells: 3.24 m/uL (abnormal)
+- White Blood Cells: 14.2 K/uL (abnormal)
+- Anion Gap: 21 mEq/L (abnormal)
+- Creatine Kinase (CK): 298 IU/L (abnormal)
+- Troponin T: 0.02 ng/mL (abnormal)
+- Glucose: 113 mg/dL (abnormal)
+- Albumin: 3.0 g/dL (abnormal)",normal
+"Diagnosis: METASTIC MELANOMA;ANEMIA
+Sex: F
+Age: 81
+Abnormal lab results:
+- Alkaline Phosphatase: 218 IU/L (abnormal)
+- Asparate Aminotransferase (AST): 72 IU/L (abnormal)
+- Creatinine: 1.6 mg/dL (abnormal)
+- Lactate Dehydrogenase (LD): 1337 IU/L (abnormal)
+- Urea Nitrogen: 46 mg/dL (abnormal)
+- Hematocrit: 27.1 % (abnormal)
+- Hemoglobin: 8.0 g/dL (abnormal)
+- INR(PT): 1.2 nan (abnormal)
+- MCHC: 29.6 % (abnormal)
+- PT: 13.6 sec (abnormal)
+- RDW: 18.7 % (abnormal)
+- Red Blood Cells: 2.89 m/uL (abnormal)
+- Albumin: 3.0 g/dL (abnormal)
+- Bicarbonate: 20 mEq/L (abnormal)
+- Calcium, Total: 7.6 mg/dL (abnormal)
+- Protein, Total: 5.1 g/dL (abnormal)
+- RBC: 5 #/hpf (abnormal)
+- WBC: 567 #/hpf (abnormal)
+- Chloride: 112 mEq/L (abnormal)
+- Phosphate: 2.5 mg/dL (abnormal)",urgente
+"Diagnosis: SEPSIS
+Sex: F
+Age: 90
+Abnormal lab results:
+- Asparate Aminotransferase (AST): 43 IU/L (abnormal)
+- Bicarbonate: 16 mEq/L (abnormal)
+- Calcium, Total: 11.6 mg/dL (abnormal)
+- Chloride: 135 mEq/L (abnormal)
+- Creatinine: 1.2 mg/dL (abnormal)
+- Glucose: 347 mg/dL (abnormal)
+- Lipase: 65 IU/L (abnormal)
+- Magnesium: 3.5 mg/dL (abnormal)
+- Sodium: 166 mEq/L (abnormal)
+- Troponin T: 0.25 ng/ml (abnormal)
+- Urea Nitrogen: 80 mg/dL (abnormal)
+- Vitamin B12: 175 pg/mL (abnormal)
+- Lymphocytes: 3.6 % (abnormal)
+- MCH: 32.9 pg (abnormal)
+- MCV: 101 fL (abnormal)
+- Monocytes: 1.3 % (abnormal)
+- Neutrophils: 94.8 % (abnormal)
+- RDW: 15.9 % (abnormal)
+- White Blood Cells: 22.6 K/uL (abnormal)
+- Lactate: 6.2 mmol/L (abnormal)",urgente
+"Diagnosis: SUBDURAL HEMATOMA/S/P FALL
+Sex: M
+Age: 69
+Abnormal lab results:
+- Amylase: 180 IU/L (abnormal)
+- Urea Nitrogen: 21 mg/dL (abnormal)
+- Fibrinogen, Functional: 124 mg/dL (abnormal)
+- Hematocrit: 36.6 % (abnormal)
+- Hemoglobin: 12.8 g/dL (abnormal)
+- INR(PT): 1.3 nan (abnormal)
+- MCH: 33.0 pg (abnormal)
+- PT: 14.8 sec (abnormal)
+- Red Blood Cells: 3.88 m/uL (abnormal)
+- White Blood Cells: 28.7 K/uL (abnormal)
+- Glucose: 243 mg/dL (abnormal)
+- Lactate: 2.3 mmol/L (abnormal)
+- Potassium, Whole Blood: 3.0 mEq/L (abnormal)
+- Bicarbonate: 18 mEq/L (abnormal)
+- Calcium, Total: 7.9 mg/dL (abnormal)
+- Creatine Kinase (CK): 883 IU/L (abnormal)
+- Creatine Kinase, MB Isoenzyme: 24 ng/mL (abnormal)
+- Troponin T: 0.06 ng/mL (abnormal)
+- PTT: 39.0 sec (abnormal)
+- Calculated Total CO2: 19 mEq/L (abnormal)",urgente
+"Diagnosis: BASAL GANGLIN BLEED
+Sex: M
+Age: 86
+Abnormal lab results:
+- Asparate Aminotransferase (AST): 59 IU/L (abnormal)
+- Bicarbonate: 21 mEq/L (abnormal)
+- Creatine Kinase (CK): 4025 IU/L (abnormal)
+- Creatine Kinase, MB Isoenzyme: 17 ng/mL (abnormal)
+- Glucose: 153 mg/dL (abnormal)
+- Troponin T: 0.02 ng/mL (abnormal)
+- Urea Nitrogen: 24 mg/dL (abnormal)
+- Hematocrit: 37.5 % (abnormal)
+- Hemoglobin: 13.1 g/dL (abnormal)
+- Lymphocytes: 10.7 % (abnormal)
+- Neutrophils: 84.5 % (abnormal)
+- PT: 13.6 sec (abnormal)
+- Red Blood Cells: 4.41 m/uL (abnormal)
+- Lactate: 4.7 mmol/L (abnormal)
+- pO2: 192 mm Hg (abnormal)
+- Cholesterol, LDL, Calculated: 274 mg/dL (abnormal)
+- Cholesterol, Total: 330 mg/dL (abnormal)
+- White Blood Cells: 12.7 K/uL (abnormal)
+- Calcium, Total: 8.2 mg/dL (abnormal)
+- Chloride: 110 mEq/L (abnormal)",urgente
+"Diagnosis: BRAIN METASTASES
+Sex: F
+Age: 53
+Abnormal lab results:
+- Albumin: 3.3 g/dL (abnormal)
+- Chloride: 99 mEq/L (abnormal)
+- Globulin: 4.2 g/dL (abnormal)
+- Glucose: 150 mg/dL (abnormal)
+- Hematocrit: 32.4 % (abnormal)
+- Hemoglobin: 11.1 g/dL (abnormal)
+- Lymphocytes: 5.8 % (abnormal)
+- MCV: 81 fL (abnormal)
+- Neutrophils: 90.7 % (abnormal)
+- Red Blood Cells: 4.02 m/uL (abnormal)
+- Phenytoin: 7.6 ug/mL (abnormal)
+- PT: 13.2 SECONDS (abnormal)
+- PTT: 21.7 sec (abnormal)
+- White Blood Cells: 15.2 K/uL (abnormal)",urgente
+"Diagnosis: ABDOMINAL PAIN
+Sex: F
+Age: 82
+Abnormal lab results:
+- Alkaline Phosphatase: 294 IU/L (abnormal)
+- Asparate Aminotransferase (AST): 106 IU/L (abnormal)
+- Bilirubin, Direct: 2.5 mg/dL (abnormal)
+- Bilirubin, Total: 6.4 mg/dL (abnormal)
+- Calcium, Total: 7.8 mg/dL (abnormal)
+- Creatinine: 1.2 mg/dL (abnormal)
+- Glucose: 122 mg/dL (abnormal)
+- NTproBNP: 1301 pg/mL (abnormal)
+- Potassium: 3.2 mEq/L (abnormal)
+- Urea Nitrogen: 32 mg/dL (abnormal)
+- Granulocyte Count: 750 #/uL (abnormal)
+- Hematocrit: 30.2 % (abnormal)
+- Hemoglobin: 10.7 g/dL (abnormal)
+- MCHC: 35.4 % (abnormal)
+- MCV: 78 fL (abnormal)
+- Platelet Count: 36 K/uL (abnormal)
+- RDW: 16.4 % (abnormal)
+- Red Blood Cells: 3.90 m/uL (abnormal)
+- White Blood Cells: 1.1 K/uL (abnormal)
+- Alanine Aminotransferase (ALT): 109 IU/L (abnormal)",urgente
+"Diagnosis: PNEUMONIA
+Sex: M
+Age: 90
+Abnormal lab results:
+- Creatinine: 1.6 mg/dL (abnormal)
+- Glucose: 108 mg/dL (abnormal)
+- Urea Nitrogen: 23 mg/dL (abnormal)
+- Hematocrit: 35.9 % (abnormal)
+- Hemoglobin: 11.8 g/dL (abnormal)
+- Lymphocytes: 9.4 % (abnormal)
+- Neutrophils: 81.7 % (abnormal)
+- Red Blood Cells: 4.18 m/uL (abnormal)",urgente
+"Diagnosis: VARICEAL BLEED
+Sex: M
+Age: 70
+Abnormal lab results:
+- Bicarbonate: 19 mEq/L (abnormal)
+- Chloride: 117 mEq/L (abnormal)
+- Creatinine: 2.3 mg/dL (abnormal)
+- Glucose: 190 mg/dL (abnormal)
+- Phosphate: 4.7 mg/dL (abnormal)
+- Potassium: 5.5 mEq/L (abnormal)
+- Sodium: 146 mEq/L (abnormal)
+- Urea Nitrogen: 71 mg/dL (abnormal)
+- Hematocrit: 26.0 % (abnormal)
+- Hemoglobin: 9.7 g/dL (abnormal)
+- INR(PT): 1.4 nan (abnormal)
+- MCH: 33.1 pg (abnormal)
+- MCHC: 37.1 % (abnormal)
+- Platelet Count: 108 K/uL (abnormal)
+- PT: 15.8 sec (abnormal)
+- RDW: 16.2 % (abnormal)
+- Red Blood Cells: 2.92 m/uL (abnormal)
+- White Blood Cells: 19.8 K/uL (abnormal)
+- Albumin: 2.7 g/dL (abnormal)
+- Calcium, Total: 8.2 mg/dL (abnormal)",urgente
+"Diagnosis: CORONARY ARTERY DISEASE; CORONARY ARTERY BYPASS GRAFT
+Sex: F
+Age: 72
+Abnormal lab results:
+- pO2: 514 mm Hg (abnormal)
+- Glucose: 111 mg/dL (abnormal)
+- Hemoglobin: 7.6 g/dL (abnormal)
+- pCO2: 33 mm Hg (abnormal)
+- pH: 7.50 units (abnormal)
+- Potassium, Whole Blood: 5.4 mEq/L (abnormal)
+- Free Calcium: 1.35 mmol/L (abnormal)
+- Lactate: 5.2 mmol/L (abnormal)
+- Eosinophils: 5.6 % (abnormal)
+- Fibrinogen, Functional: 107 mg/dL (abnormal)
+- Hematocrit: 23.3 % (abnormal)
+- INR(PT): 1.5 nan (abnormal)
+- PT: 16.5 sec (abnormal)
+- PTT: 36.2 sec (abnormal)
+- Red Blood Cells: 2.61 m/uL (abnormal)
+- White Blood Cells: 14.6 K/uL (abnormal)
+- Chloride: 113 mEq/L (abnormal)
+- MCHC: 35.4 % (abnormal)
+- Urea Nitrogen: 22 mg/dL (abnormal)",normal
+"Diagnosis: HYPOTENSION
+Sex: M
+Age: 82
+Abnormal lab results:
+- Bicarbonate: 20 mEq/L (abnormal)
+- Creatinine: 2.2 mg/dL (abnormal)
+- Lactate Dehydrogenase (LD): 310 IU/L (abnormal)
+- Potassium: 5.2 mEq/L (abnormal)
+- Troponin T: 0.05 ng/mL (abnormal)
+- Urea Nitrogen: 58 mg/dL (abnormal)
+- Hematocrit: 25.5 % (abnormal)
+- Hemoglobin: 7.4 g/dL (abnormal)
+- INR(PT): 1.3 nan (abnormal)
+- Lymphocytes: 8.6 % (abnormal)
+- MCH: 23.9 pg (abnormal)
+- MCHC: 29.2 % (abnormal)
+- Neutrophils: 84.6 % (abnormal)
+- PT: 15.0 sec (abnormal)
+- RDW: 20.8 % (abnormal)
+- Red Blood Cells: 3.11 m/uL (abnormal)
+- Macrophage: 24 % (abnormal)
+- Mesothelial Cell: 1 % (abnormal)
+- Monocytes: 55 % (abnormal)
+- Polys: 7 % (abnormal)",urgente
+"Diagnosis: PNEUMONIA
+Sex: M
+Age: 65
+Abnormal lab results:
+- Glucose: 140 mg/dL (abnormal)
+- Urea Nitrogen: 33 mg/dL (abnormal)
+- Hemoglobin: 12.5 g/dL (abnormal)
+- INR(PT): 1.6 nan (abnormal)
+- Lymphocytes: 8.9 % (abnormal)
+- MCH: 22.3 pg (abnormal)
+- MCV: 72 fL (abnormal)
+- Neutrophils: 87.0 % (abnormal)
+- PT: 17.1 sec (abnormal)
+- RDW: 16.1 % (abnormal)
+- White Blood Cells: 23.7 K/uL (abnormal)
+- Hyaline Casts: 4 #/lpf (abnormal)
+- RBC: 7 #/hpf (abnormal)
+- WBC: 101 #/hpf (abnormal)
+- Albumin: 3.2 g/dL (abnormal)
+- Calcium, Total: 7.7 mg/dL (abnormal)
+- Chloride: 113 mEq/L (abnormal)
+- Creatinine: 0.4 mg/dL (abnormal)
+- Phosphate: 2.1 mg/dL (abnormal)
+- Sodium: 146 mEq/L (abnormal)",urgente
+"Diagnosis: CHOLANGITIS
+Sex: F
+Age: 58
+Abnormal lab results:
+- Alanine Aminotransferase (ALT): 58 IU/L (abnormal)
+- Albumin: 2.7 g/dL (abnormal)
+- Alkaline Phosphatase: 479 IU/L (abnormal)
+- Asparate Aminotransferase (AST): 52 IU/L (abnormal)
+- Glucose: 115 mg/dL (abnormal)
+- Hematocrit: 25.4 % (abnormal)
+- Hemoglobin: 8.7 g/dL (abnormal)
+- INR(PT): 1.6 nan (abnormal)
+- Lymphocytes: 1.8 % (abnormal)
+- Neutrophils: 95.9 % (abnormal)
+- Platelet Count: 460 K/uL (abnormal)
+- PT: 17.2 sec (abnormal)
+- Red Blood Cells: 2.87 m/uL (abnormal)
+- White Blood Cells: 20.0 K/uL (abnormal)
+- Lactate: 2.4 mmol/L (abnormal)
+- RBC: 3-5 #/hpf (abnormal)
+- Bicarbonate: 17 mEq/L (abnormal)
+- Calcium, Total: 6.1 mg/dL (abnormal)
+- Chloride: 115 mEq/L (abnormal)
+- Magnesium: 1.0 mg/dL (abnormal)",urgente
+"Diagnosis: SHORTNESS OF BREATH
+Sex: M
+Age: 77
+Abnormal lab results:
+- Chloride: 109 mEq/L (abnormal)
+- Creatinine: 1.9 mg/dL (abnormal)
+- NTproBNP: 927 pg/mL (abnormal)
+- Troponin T: 0.02 ng/mL (abnormal)
+- Urea Nitrogen: 25 mg/dL (abnormal)
+- Eosinophils: 4.9 % (abnormal)
+- Hemoglobin: 13.5 g/dL (abnormal)
+- Lymphocytes: 14.3 % (abnormal)
+- Neutrophils: 75.0 % (abnormal)
+- RDW: 17.0 % (abnormal)
+- White Blood Cells: 12.8 K/uL (abnormal)
+- pO2: 83 mm Hg (abnormal)
+- Potassium: 5.2 mEq/L (abnormal)",urgente
+"Diagnosis: CRITICAL AORTIC STENOSIS/HYPOTENSION
+Sex: M
+Age: 87
+Abnormal lab results:
+- Anion Gap: 22 mEq/L (abnormal)
+- Bicarbonate: 17 mEq/L (abnormal)
+- Calcium, Total: 8.0 mg/dL (abnormal)
+- CK-MB Index: 11.1 % (abnormal)
+- Creatine Kinase (CK): 1498 IU/L (abnormal)
+- Creatine Kinase, MB Isoenzyme: 166 ng/mL (abnormal)
+- Creatinine: 2.4 mg/dL (abnormal)
+- Glucose: 159 mg/dL (abnormal)
+- Phosphate: 5.8 mg/dL (abnormal)
+- Troponin T: 5.39 ng/mL (abnormal)
+- Urea Nitrogen: 87 mg/dL (abnormal)
+- INR(PT): 1.6 nan (abnormal)
+- PT: 16.9 sec (abnormal)
+- PTT: 138.5 sec (abnormal)
+- Hemoglobin: 9.6 g/dL (abnormal)
+- Lactate: 7.7 mmol/L (abnormal)
+- Alanine Aminotransferase (ALT): 175 IU/L (abnormal)
+- Albumin: 2.4 g/dL (abnormal)
+- Alkaline Phosphatase: 154 IU/L (abnormal)
+- Asparate Aminotransferase (AST): 567 IU/L (abnormal)",urgente
+"Diagnosis: S/P MOTOR VEHICLE ACCIDENT
+Sex: F
+Age: 17
+Abnormal lab results:
+- Ethanol: 69 mg/dL (abnormal)
+- Fibrinogen, Functional: 137 mg/dL (abnormal)
+- Hematocrit: 27.4 % (abnormal)
+- Hemoglobin: 10.0 g/dL (abnormal)
+- INR(PT): 1.3 nan (abnormal)
+- MCHC: 36.3 % (abnormal)
+- PT: 14.6 sec (abnormal)
+- Red Blood Cells: 3.16 m/uL (abnormal)
+- White Blood Cells: 13.4 K/uL (abnormal)
+- Calculated Bicarbonate, Whole Blood: 15 mEq/L (abnormal)
+- Glucose: 133 mg/dL (abnormal)
+- Lactate: 5.7 mmol/L (abnormal)
+- Potassium, Whole Blood: 3.2 mEq/L (abnormal)
+- Free Calcium: 1.09 mmol/L (abnormal)
+- pO2: 472 mm Hg (abnormal)
+- Calcium, Total: 7.8 mg/dL (abnormal)
+- Chloride: 109 mEq/L (abnormal)
+- pCO2: 50 mm Hg (abnormal)
+- pH: 7.31 units (abnormal)
+- Magnesium: 2.6 mg/dL (abnormal)",urgente
+"Diagnosis: SEPSIS
+Sex: F
+Age: 73
+Abnormal lab results:
+- RBC: 3-5 #/hpf (abnormal)
+- WBC: 11-20 #/hpf (abnormal)
+- Glucose: 150 mg/dL (abnormal)
+- Troponin T: 1.73 ng/mL (abnormal)
+- Urea Nitrogen: 26 mg/dL (abnormal)
+- Hemoglobin: 11.8 g/dL (abnormal)
+- PTT: 35.1 sec (abnormal)
+- Red Blood Cells: 3.97 m/uL (abnormal)
+- White Blood Cells: 17.0 K/uL (abnormal)
+- Creatine Kinase (CK): 356 IU/L (abnormal)
+- Creatine Kinase, MB Isoenzyme: 11 ng/mL (abnormal)
+- Calcium, Total: 8.0 mg/dL (abnormal)
+- INR(PT): 1.2 nan (abnormal)
+- PT: 13.8 sec (abnormal)
+- Sodium: 146 mEq/L (abnormal)
+- Calculated Total CO2: 36 mEq/L (abnormal)
+- pCO2: 51 mm Hg (abnormal)
+- Bicarbonate: 34 mEq/L (abnormal)
+- Magnesium: 2.8 mg/dL (abnormal)
+- Phosphate: 4.6 mg/dL (abnormal)",urgente
+"Diagnosis: RESPIRATORY DISTRESS
+Sex: M
+Age: 66
+Abnormal lab results:
+- Hematocrit: 39.4 % (abnormal)
+- Hemoglobin: 11.7 g/dL (abnormal)
+- Lymphocytes: 15.7 % (abnormal)
+- MCH: 21.2 pg (abnormal)
+- MCHC: 29.6 % (abnormal)
+- MCV: 72 fL (abnormal)
+- Neutrophils: 78.0 % (abnormal)
+- RDW: 16.1 % (abnormal)
+- White Blood Cells: 16.1 K/uL (abnormal)
+- RBC: 25 #/hpf (abnormal)
+- WBC: 136 #/hpf (abnormal)
+- Glucose: 105 mg/dL (abnormal)
+- INR(PT): 3.2 nan (abnormal)
+- PT: 33.0 sec (abnormal)
+- PTT: 47.1 sec (abnormal)
+- Calcium, Total: 8.1 mg/dL (abnormal)
+- Creatinine: 0.4 mg/dL (abnormal)
+- Phosphate: 2.2 mg/dL (abnormal)
+- Potassium: 3.0 mEq/L (abnormal)
+- Creatine Kinase (CK): 506 IU/L (abnormal)",urgente
+"Diagnosis: OVERDOSE
+Sex: M
+Age: 28
+Abnormal lab results:
+- Calcium, Total: 7.9 mg/dL (abnormal)
+- Hematocrit: 29.0 % (abnormal)
+- Hemoglobin: 9.9 g/dL (abnormal)
+- Red Blood Cells: 3.32 m/uL (abnormal)
+- pO2: 457 mm Hg (abnormal)
+- Glucose: 122 mg/dL (abnormal)
+- Potassium, Whole Blood: 3.2 mEq/L (abnormal)
+- Chloride: 114 mEq/L (abnormal)
+- INR(PT): 1.2 nan (abnormal)
+- PT: 13.2 sec (abnormal)
+- PTT: 37.2 sec (abnormal)
+- Albumin: 3.3 g/dL (abnormal)
+- MCHC: 35.3 % (abnormal)
+- pH: 9.0 units (abnormal)
+- Amylase: 318 IU/L (abnormal)",urgente

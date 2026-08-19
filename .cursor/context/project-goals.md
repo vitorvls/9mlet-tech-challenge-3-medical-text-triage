@@ -86,8 +86,8 @@ O projeto **não** é:
 
 ## 6. Decisões pendentes
 
-Lista canônica em `tech-challenge-requirements.md` §15.  
-Agentes não devem escolher sozinhos dataset, algoritmo, técnica de otimização, linter, contrato detalhado da API, etc.
+Lista canônica em `tech-challenge-requirements.md` §15 e `docs/TODO.md` §0.2.  
+Dataset, labels, algoritmo e `predict` já fechados. Agentes não devem reabrir isso nem escolher sozinhos linter, cloud documental ou path HTTP.
 
 ---
 

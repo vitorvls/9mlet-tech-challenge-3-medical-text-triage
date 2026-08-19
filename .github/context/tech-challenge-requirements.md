@@ -37,7 +37,7 @@ Em qualquer conflito, prevalece o PDF. Se este arquivo divergir do PDF, corrija 
 |------|-----------|---------|
 | Tema: Deploy de modelo com CI/CD, monitoramento e otimização de latência | OBRIGATÓRIO (contexto) | Foco do desafio |
 | Triagem automática de laudos/exames de texto por urgência | OBRIGATÓRIO (contexto) | Problema clínico do PDF |
-| Classes `normal` / `atenção` / `urgente` | EXEMPLO FIAP | PDF usa “ex.:”; labels finais dependem do dataset (PENDENTE se dataset não definido) |
+| Classes `normal` / `atenção` / `urgente` | DECISÃO DO PROJETO | Mapeadas de `ADMISSIONS.admission_type`: ELECTIVE→`normal`, URGENT→`atenção`, EMERGENCY→`urgente`. Ver `docs/TODO.md` §0.2 |
 | Classificador de texto NLP **leve** | OBRIGATÓRIO | Modelo central |
 | Serviço via API REST em container Docker | OBRIGATÓRIO | Inferência servida |
 
@@ -52,7 +52,7 @@ Em qualquer conflito, prevalece o PDF. Se este arquivo divergir do PDF, corrija 
 | Airflow | OBRIGATÓRIO | Orquestração de tarefas (treino/retreino) |
 | Scikit-Learn **ou** framework de preferência | OBRIGATÓRIO (com liberdade) | Modelo base de classificação de texto |
 | TF-IDF + Random Forest | EXEMPLO FIAP | “ou modelo leve similar” |
-| Framework/modelo concreto do projeto | PENDENTE DE DECISÃO | Não escolher silenciosamente |
+| Framework/modelo concreto do projeto | DECISÃO DO PROJETO | TF-IDF (`TfidfVectorizer`) + `LogisticRegression` (sklearn, `class_weight="balanced"`). Baseline da Fase 1. |
 | Docker (Dockerfile do serviço de inferência) | OBRIGATÓRIO | |
 | Docker Compose (API + Prometheus + Grafana) | OBRIGATÓRIO | Stack local de monitoramento |
 | Prometheus | OBRIGATÓRIO | Parte da stack de monitoramento |
@@ -82,7 +82,7 @@ Em qualquer conflito, prevalece o PDF. Se este arquivo divergir do PDF, corrija 
 | API FastAPI que recebe texto do laudo e retorna classificação | OBRIGATÓRIO | |
 | Empacotar API em container Docker | OBRIGATÓRIO | |
 | Medir baseline de latência local | OBRIGATÓRIO | Tempo de resposta |
-| Contrato exato de endpoint/schema JSON | PENDENTE DE DECISÃO | PDF define entrada/saída conceitualmente, não o schema |
+| Contrato JSON de inferência (`text` → `label` + `confidence`) | DECISÃO DO PROJETO | Ver `docs/TODO.md` §0.2. Path HTTP / status codes ainda com o Vini (sugestão `POST /predict`) |
 
 ---
 
@@ -144,7 +144,7 @@ Em qualquer conflito, prevalece o PDF. Se este arquivo divergir do PDF, corrija 
 | Coluna de texto + coluna target; ≥ 2.000 amostras | RECOMENDAÇÃO | Critérios sugeridos pelo PDF |
 | Medical Abstracts TC Corpus (Kaggle) | EXEMPLO FIAP | |
 | Recortes do MIMIC-III (open access) | EXEMPLO FIAP | |
-| Dataset concreto escolhido pelo projeto | PENDENTE DE DECISÃO | Não escolher silenciosamente |
+| Dataset concreto escolhido pelo projeto | DECISÃO DO PROJETO | [MIMIC-III Clinical Database (Open Access)](https://www.kaggle.com/datasets/ihssanened/mimic-iii-clinical-databaseopen-access). Texto: laudo simulado (`medical_report`) sem vazamento do rótulo. Target derivado de `admission_type`. Detalhes em `docs/TODO.md` §0.2. |
 
 ---
 
@@ -244,15 +244,17 @@ Agentes devem priorizar esforço conforme esses pesos. Evitar funcionalidades se
 
 ## 15. Decisões pendentes (agentes NÃO devem decidir sozinhos)
 
-1. Dataset concreto
-2. Framework/algoritmo concreto do classificador (além da liberdade sklearn-ou-preferência)
-3. Labels finais de urgência (se diferentes do exemplo do PDF)
-4. Técnica concreta de otimização (ONNX vs quantização vs pruning vs outra válida)
-5. Linter/formatter Python concretos
-6. Provedor e desenho detalhado da estratégia cloud documental
-7. Contrato detalhado da API (paths, schemas, códigos HTTP)
-8. Layout exato de pastas do repositório
-9. Versões pinadas de dependências
+**Já fechadas (2026-08-15, ver `docs/TODO.md` §0.2):** dataset Kaggle MIMIC-III Open Access; labels `normal`/`atenção`/`urgente`; TF-IDF + Logistic Regression; artefato `models/baseline.joblib`; `predict` → `{label, confidence}`.
+
+Ainda pendentes:
+
+1. Técnica concreta de otimização — **proposta** ONNX Runtime (Semana C); time ainda não confirmou
+2. Linter/formatter Python concretos
+3. Provedor e desenho detalhado da estratégia cloud documental
+4. Path HTTP e códigos de status da API (JSON de negócio já fechado)
+5. Layout do restante do repositório (API, compose, dags, CI) — trilha `src/triage/` + `data/` + `models/` já fechada
+6. Versões pinadas de dependências
+7. Empacotamento Python (pip/poetry/uv)
 
 Quando uma decisão for tomada, atualizar este arquivo (mover de PENDENTE para DECISÃO DO PROJETO) e alinhar `tech-stack.md` / `allowed-libs.md`.
 

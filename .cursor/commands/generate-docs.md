@@ -14,12 +14,14 @@ Gerar documentação viva priorizando o que a FIAP avalia no README e nas evidê
 
 When asked for project docs, prioritize in this order:
 
-1. **README do desafio**
+1. **`docs/etapas/<trilha>/etapa-NN.md`** da etapa que acabou de ser implementada (obrigatório; didático). Trilhas: `Modelagem e otimização`, `API e Docker`, `Monitoramento`, `CI-CD Airflow e documentacao`.
+2. **README do desafio** (quando for a trilha do Edu / entrega FIAP)
    - Estratégia cloud (batch vs real-time) com justificativa
    - Instruções claras de execução (API Docker, Compose, CI, Airflow, etc.)
-2. Evidências de latência (baseline + original vs otimizado)
-3. Como ver métricas Prometheus/Grafana (≥3 painéis)
-4. Documentação de módulos (responsibility, data flow, decisions) se solicitado
+3. Evidências de latência (baseline + original vs otimizado)
+4. Como ver métricas Prometheus/Grafana (≥3 painéis)
+
+Uma etapa de código **não** está concluída sem o `.md` correspondente. Modelo/treino: explicar métricas em linguagem simples. Ver `.cursor/rules/documentation-rules.md`.
 
 Classify statements as OBRIGATÓRIO / EXEMPLO / DECISÃO / PENDENTE when documenting requirements.
 
@@ -38,3 +40,4 @@ Documentation ready to paste into README/docs, with clear sections for cloud + r
 - `.cursor/context/tech-challenge-requirements.md`
 - `.cursor/context/deployment.md`
 - `.cursor/context/architecture.md`
+- `.cursor/rules/documentation-rules.md`

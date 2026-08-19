@@ -37,9 +37,10 @@ Em conflito: **PDF > requirements tipados > decisões explícitas > resto**.
 4. `context/architecture.md`
 5. `context/tech-stack.md`
 6. `context/deployment.md`
-7. `rules/*` (regras duras)
+7. `rules/*` (regras duras — incluir `documentation-rules.md`)
 8. `libs/*` (dependências)
 9. O `commands/*` relevante à tarefa
+10. TODO da trilha em `docs/etapas/<pasta>/TODO.md` quando for implementar
 
 ---
 
@@ -70,7 +71,7 @@ Lista canônica em:
 
 `context/tech-challenge-requirements.md` → seção **Decisões pendentes**
 
-Inclui (enquanto não forem decididas): dataset, algoritmo/modelo, técnica de otimização, linter/formatter, detalhes do contrato da API, provedor cloud documental, etc.
+Inclui (enquanto não forem decididas): técnica de otimização (ONNX proposto), linter/formatter, path HTTP, provedor cloud documental, etc. Dataset, labels, algoritmo e artefato do modelo: ver `docs/TODO.md` §0.2 (fechados).
 
 ---
 
@@ -101,7 +102,8 @@ Não interpretar o sistema como diagnóstico médico ou substituto de profission
 │   ├── code-style.md
 │   ├── git-rules.md
 │   ├── security-rules.md
-│   └── testing-rules.md
+│   ├── testing-rules.md
+│   └── documentation-rules.md   # docs/etapas obrigatória por trilha
 ├── libs/
 │   ├── allowed-libs.md
 │   ├── forbidden-libs.md
@@ -127,3 +129,4 @@ Não interpretar o sistema como diagnóstico médico ou substituto de profission
 - Classificar requisitos antes de implementar
 - IA propõe; humanos aprovam decisões arquiteturais e pendentes
 - Documentação viva: atualizar `.github` quando decisões mudarem
+- **Documentação por etapa:** código sem `docs/etapas/<trilha>/etapa-NN.md` **não** está concluído (ver `rules/documentation-rules.md`)

@@ -50,6 +50,7 @@ Mark each item: OK / MISSING / PARTIAL / N/A (with reason).
 - [ ] README com instruções claras de execução
 - [ ] Sem requisitos inventados bloqueando a entrega (JWT/DB/K8s obrigatórios etc.)
 - [ ] Evidências suficientes para gravar/demonstrar o vídeo
+- [ ] Trilha `docs/etapas/` atualizada (cada entrega de código com `etapa-NN.md` didático)
 
 ## Constraints
 

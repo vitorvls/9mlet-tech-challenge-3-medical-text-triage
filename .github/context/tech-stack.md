@@ -15,7 +15,7 @@ Agentes **não** devem adicionar stacks paralelas (Node/Express/npm CLI, etc.).
 | Item | Status | Notas |
 |------|--------|-------|
 | Python | Stack do projeto | Ecossistema FastAPI / sklearn / Airflow |
-| Versão específica do Python | PENDENTE DE DECISÃO | Não fixar silenciosamente |
+| Versão específica do Python | DECISÃO DO PROJETO | **3.11.9** (`requires-python = "==3.11.9"` no `pyproject.toml`; venv com esse interpretador). |
 
 ---
 
@@ -42,10 +42,13 @@ Agentes **não** devem adicionar stacks paralelas (Node/Express/npm CLI, etc.).
 | Item | Status |
 |------|--------|
 | Conventional Commits para histórico semântico | Adotado como decisão interna (ver `git-rules.md`) |
-| Framework/algoritmo concreto do classificador | PENDENTE |
-| Técnica concreta de otimização | PENDENTE |
-| Dataset concreto | PENDENTE |
+| Dataset concreto | [MIMIC-III Open Access (Kaggle)](https://www.kaggle.com/datasets/ihssanened/mimic-iii-clinical-databaseopen-access) — ver `docs/TODO.md` §0.2 |
+| Labels | `normal` / `atenção` / `urgente` (proxy de `admission_type`) |
+| Framework/algoritmo concreto do classificador | TF-IDF + Logistic Regression (sklearn) |
+| Artefato do modelo | `models/baseline.joblib` |
+| Técnica concreta de otimização | PROPOSTO: ONNX Runtime (Semana C) — time ainda não confirmou |
 | Linter/formatter concretos | PENDENTE |
+| Empacotamento Python | `pip` + `pyproject.toml` + `.venv/` (2026-08-15). Sem Poetry/uv. |
 
 ---
 
@@ -57,7 +60,7 @@ Ferramentas úteis **somente** se decididas explicitamente:
 |------|-------------------|--------|
 | Testes | pytest (EXEMPLO FIAP) | Preferível alinhar ao exemplo do PDF; pin/versão PENDENTE |
 | Lint/format | ruff, black, isort, flake8, etc. | PENDENTE DE DECISÃO — não impor sem aprovação |
-| Empacotamento Python | pip + requirements / poetry / uv | PENDENTE DE DECISÃO |
+| Empacotamento Python | pip + `pyproject.toml` + `.venv` | **DECISÃO DO PROJETO** — ver `pyproject.toml` |
 | Runtime de otimização | onnxruntime (se ONNX for escolhido) | Condicional à decisão de otimização |
 
 Não tratar tooling opcional como requisito FIAP.
