@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import logging
 import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -23,12 +24,6 @@ from prometheus_client import (
 from pydantic import BaseModel, field_validator
 
 logger = logging.getLogger("triage.api")
-
-app = FastAPI(
-    title="Medical Text Triage",
-    description="Classifies a medical report as normal / atenção / urgente.",
-    version="1.0.0",
-)
 
 # ---------------------------------------------------------------------------
 # Prometheus instruments
@@ -98,9 +93,18 @@ def _try_load_model() -> None:
         logger.warning("Model not loaded at startup: %s", exc)
 
 
-@app.on_event("startup")
-async def startup_event() -> None:
+@asynccontextmanager
+async def lifespan(application: FastAPI):  # noqa: ARG001
     _try_load_model()
+    yield
+
+
+app = FastAPI(
+    title="Medical Text Triage",
+    description="Classifies a medical report as normal / atenção / urgente.",
+    version="1.0.0",
+    lifespan=lifespan,
+)
 
 
 # ---------------------------------------------------------------------------
