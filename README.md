@@ -6,7 +6,7 @@ O serviço previsto pelo desafio lê um laudo, devolve `normal` / `atenção` / 
 
 > **Isto não é um produto clínico.** Não substitui profissional de saúde, não emite diagnóstico e não recomenda conduta. O alvo do modelo é um *proxy* acadêmico (tipo de admissão hospitalar), não a gravidade real do paciente.
 
-**Estado atual (2026-08-15):** Checkpoint **Vítor A** fechado — dataset processado, modelo treinado, função `predict` pronta. API, Docker, Airflow, CI e Grafana ainda são das outras pessoas do time.
+**Estado atual (2026-08-18):** Checkpoints **Vítor A** (modelo e dados), **Vini A** (API FastAPI, Dockerfile e baseline de latência) e **Fernando A** (Monitoramento com Prometheus, Grafana e Docker Compose) concluídos.
 
 ---
 
@@ -16,7 +16,7 @@ O serviço previsto pelo desafio lê um laudo, devolve `normal` / `atenção` / 
 |--------|------------------|
 | **Vítor** | Modelagem e otimização (esta fase) |
 | **Vini** | API FastAPI + Docker + baseline de latência |
-| **Fernando** | Prometheus, Grafana, Docker Compose |
+| **Fernando** | Prometheus, Grafana, Docker Compose (concluído) |
 | **Edu** | GitHub Actions, Airflow, README cloud (expansão), vídeo STAR |
 
 Quadro operacional: [`docs/TODO.md`](docs/TODO.md).
@@ -26,16 +26,23 @@ Quadro operacional: [`docs/TODO.md`](docs/TODO.md).
 ## O que já existe
 
 ```text
-texto do laudo  →  TF-IDF + Logistic Regression  →  { label, confidence }
+texto do laudo  →  FastAPI (/predict)  →  TF-IDF + LR  →  { label, confidence }
+                          ↓
+             Métricas Prometheus (/metrics)  →  Prometheus (:9090)  →  Grafana (:3000)
 ```
 
 | Artefato | Caminho |
 |----------|---------|
-| Pacote Python | `src/triage/` |
+| Pacote Python / API | `src/triage/` (`api.py`, `predict.py`, `train.py`, `prepare_data.py`) |
 | Dados crus (recorte Kaggle) | `data/raw/` |
 | Treino / teste | `data/processed/train.csv`, `test.csv` |
 | Modelo | `models/baseline.joblib` |
-| Contrato de inferência | `from triage.predict import predict` |
+| Dockerfile | `Dockerfile` |
+| Docker Compose | `docker-compose.yml` |
+| Configuração Prometheus | `monitoring/prometheus/prometheus.yml` |
+| Provisionamento Grafana | `monitoring/grafana/` (`datasource.yml`, `dashboards.yml`, `medical-triage-dashboard.json`) |
+| Simulador de Tráfego | `scripts/simulate_traffic.py` |
+| Contrato de inferência | `from triage.predict import predict` ou `POST /predict` |
 
 **Labels**
 
@@ -75,21 +82,49 @@ Treino perfeito + teste mediano = o modelo memoriza o conjunto pequeno. A classe
 
 ---
 
-## Como executar (trilha do modelo)
+---
 
-Na raiz do repositório:
+## Como executar a solução
+
+### Opção 1: Stack Completa com Docker Compose (Recomendado)
+
+Sobe simultaneamente a **API de Triagem**, o **Prometheus** e o **Grafana** (com dashboards e datasources 100% pré-configurados):
+
+```bash
+# 1. Subir os containers em background
+docker compose up -d --build
+
+# 2. Gerar tráfego contínuo para popular os gráficos em tempo real (encerra com Ctrl+C)
+python scripts/simulate_traffic.py
+
+# 3. Acessar os serviços no navegador:
+# - API Swagger Docs: http://localhost:8000/docs
+# - Métricas Prometheus: http://localhost:8000/metrics
+# - Servidor Prometheus: http://localhost:9090
+# - Painéis Grafana: http://localhost:3000 (Acesso anônimo liberado / admin:admin)
+```
+
+Para parar os serviços:
+```bash
+docker compose down
+```
+
+### Opção 2: Localmente via Python
 
 ```powershell
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -e .
+python -m pip install -e ".[dev]"
 
+# Preparar dados e treinar modelo
 python src/triage/prepare_data.py
 python src/triage/train.py
-python src/triage/predict.py
+
+# Iniciar servidor da API
+uvicorn triage.api:app --reload --port 8000
 ```
 
-Inferência em código:
+Inferência via código Python:
 
 ```python
 from triage.predict import predict
@@ -98,16 +133,12 @@ predict("Diagnosis: SEPSIS\nSex: F\nAge: 70")
 # {"label": "urgente", "confidence": 0.58}
 ```
 
-Um laudo deve seguir o formato montado no prepare (diagnóstico + sexo + idade + labs anormais), **sem** `Admission Type`, identificadores ou marcador `/SDA`.
+Inferência via HTTP `POST /predict`:
 
-JSON que a API deve espelhar (path HTTP ainda com o Vini; sugestão `POST /predict`):
-
-```json
-{ "text": "texto do laudo médico aqui" }
-```
-
-```json
-{ "label": "urgente", "confidence": 0.91 }
+```bash
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Diagnosis: SEPSIS\nSex: F\nAge: 70\nAbnormal lab results:\n- Lactate: 4.1 mmol/L (abnormal)"}'
 ```
 
 ---
@@ -115,24 +146,25 @@ JSON que a API deve espelhar (path HTTP ainda com o Vini; sugestão `POST /predi
 ## Estrutura do repositório
 
 ```text
-src/triage/           prepare_data.py, train.py, predict.py
-data/raw/             CSVs do Kaggle (recorte)
-data/processed/       train.csv, test.csv
-models/               baseline.joblib
-docs/                 quadro do time, dataset, etapas
-pyproject.toml        dependências pinadas (pandas, scikit-learn, joblib)
+src/triage/           # api.py, predict.py, train.py, prepare_data.py
+data/raw/             # CSVs do Kaggle (recorte MIMIC-III)
+data/processed/       # train.csv, test.csv
+models/               # baseline.joblib
+monitoring/           # prometheus/prometheus.yml, grafana/ (provisioning + dashboards)
+evidencias/           # grafana_dashboard.json, baseline de latência
+scripts/              # benchmark_latency.py, simulate_traffic.py
+docs/                 # quadro do time (TODO.md), dataset.md, etapas de cada integrante
+docker-compose.yml    # Orquestração API + Prometheus + Grafana
+Dockerfile            # Build multi-stage da API FastAPI
+pyproject.toml        # Dependências pinadas do projeto
 ```
-
-Ainda **não** fazem parte desta fase: FastAPI, Dockerfile, Compose, DAG Airflow, GitHub Actions.
 
 ---
 
 ## Próximos passos do time
 
-1. **Vini** — FastAPI carregando `predict`; Docker; baseline de latência.
-2. **Fernando** — `prometheus_client`, Prometheus, Grafana (≥ 3 painéis), Compose.
-3. **Edu** — Actions (≥ 2 automações), DAG (`prepare_data` → `train` → `models/baseline.joblib`), evidências, vídeo STAR.
-4. **Vítor (Semana C)** — otimização de latência (proposta: ONNX) e tabela original vs otimizado.
+1. **Edu** — Actions (≥ 2 automações), DAG (`prepare_data` → `train` → `models/baseline.joblib`), evidências, vídeo STAR.
+2. **Vítor (Semana C)** — otimização de latência (proposta: ONNX) e tabela original vs otimizado.
 
 Path do modelo **não muda** sem avisar Vini e Edu: `models/baseline.joblib`.
 
@@ -175,44 +207,17 @@ Esta seção é para **colegas de classe** (e para o próprio time) entenderem *
 | [`docs/etapas/`](docs/etapas/) | Uma pasta **por integrante**; cada passo vira `etapa-01.md`, `etapa-02.md`, … |
 | [`docs/etapas/README.md`](docs/etapas/README.md) | Mapa das quatro trilhas |
 
-Trilhas:
+Trilhas detalhadas:
+- **Modelagem e Otimização (Vítor):** [`docs/etapas/Modelagem e otimização/`](docs/etapas/Modelagem%20e%20otimização/)
+- **API e Docker (Vini):** [`docs/etapas/API e Docker/`](docs/etapas/API%20e%20Docker/)
+- **Monitoramento (Fernando):** [`docs/etapas/Monitoramento/`](docs/etapas/Monitoramento/)
+- **CI/CD, Airflow e Documentação (Edu):** [`docs/etapas/CI-CD Airflow e documentacao/`](docs/etapas/CI-CD%20Airflow%20e%20documentacao/)
 
-```text
-docs/etapas/
-├── Modelagem e otimização/          ← Vítor (feita até a etapa 05)
-├── API e Docker/                    ← Vini
-├── Monitoramento/                   ← Fernando
-└── CI-CD Airflow e documentacao/    ← Edu
-```
-
-Cada `etapa-NN.md` explica objetivo, problema, o que foi implementado, por que aquela lib/abordagem, o que foi descartado, fluxo dos dados e limitações. Em modelagem, as métricas vêm **explicadas em linguagem simples**, não só o número.
-
-## Documentação da modelagem (ler nesta ordem)
-
-Lista linear: [`docs/etapas/Modelagem e otimização/TODO.md`](docs/etapas/Modelagem%20e%20otimização/TODO.md).
+### Documentação de Monitoramento (Fernando)
 
 | Arquivo | Conteúdo |
 |---------|----------|
-| [etapa-01.md](docs/etapas/Modelagem%20e%20otimização/etapa-01.md) | Esqueleto: pastas `src/triage`, `data/processed`, `models` |
-| [etapa-02.md](docs/etapas/Modelagem%20e%20otimização/etapa-02.md) | Como 4 tabelas viram `text,label`; anti-vazamento (`/SDA`, tipo de admissão); split 102/27 |
-| [etapa-03.md](docs/etapas/Modelagem%20e%20otimização/etapa-03.md) | TF-IDF + LR; por que não Random Forest; accuracy vs F1 macro; matriz de confusão |
-| [etapa-04.md](docs/etapas/Modelagem%20e%20otimização/etapa-04.md) | `predict(text) → {label, confidence}`; o que é confidence; 3 exemplos |
-| [etapa-05.md](docs/etapas/Modelagem%20e%20otimização/etapa-05.md) | Checkpoint A: recado ao Vini/Edu, runbook, congelar o path do joblib |
-| etapa-06 / 07 | Ainda não: otimização de latência (Semana C) |
-
-## Resumo do que foi feito nesta fase (2026-08-15)
-
-Fase de **modelagem baseline** (Checkpoint Vítor A). Não incluímos API, Docker nem Airflow.
-
-1. **Regras de documentação** para o repositório inteiro (cada integrante documenta a própria pasta em `docs/etapas/`).
-2. **Python 3.11.9**, `pyproject.toml` (pandas 2.3.3, scikit-learn 1.9.0, joblib 1.5.3) e venv em `.venv/`.
-3. **Etapa 01** — Gavetas do modelo no repo.
-4. **Etapa 02** — `prepare_data.py`: 129 internações → laudo simulado (diagnóstico + sexo + idade + até 20 labs anormais). **Não** usamos `structured_medical_records.csv` como treino (só 9 internamentos, todos emergência, vazava `Admission Type`). Removemos `/SDA` (marcador quase só das eletivas). Split por `hadm_id`: 102 treino / 27 teste, as três labels nos dois lados.
-5. **Etapa 03** — Pipeline sklearn `TfidfVectorizer` + `LogisticRegression(class_weight="balanced")` salvo em `models/baseline.joblib`. Teste: accuracy 0,89 (enganosa) e **F1 macro 0,48**. Classe `atenção` não generaliza (2 casos no recorte).
-6. **Etapa 04** — `predict` carrega o Pipeline uma vez; texto vazio dá erro; três exemplos documentados (`normal`, `atenção`, `urgente`).
-7. **Etapa 05** — Pacote entregue ao time: Vini importa `from triage.predict import predict`; Edu encadeia `prepare_data.py` → `train.py` no mesmo path.
-8. **Contratos fechados:** labels, JSON in/out, path do artefato, algoritmo da Fase 1. ONNX continua **proposta** para a Semana C.
-9. **Extra local (não vai no Git):** pasta `testes_local/` com 100 laudos **inventados** e um relatório esperado vs previsto — só para estudo do viés do modelo (`urgente` demais). Está no `.gitignore`.
-10. **Page form+chat** ficou no backlog opcional do `docs/TODO.md`: só se sobrar tempo, sem alterar este modelo.
-
-Quem for implementar a API: não retreine por cima de `models/baseline.joblib` sem avisar. Quem for estudar o modelo: comece pela etapa-02 (dados) e etapa-03 (métricas).
+| [etapa-01-instrumentacao-metricas.md](docs/etapas/Monitoramento/etapa-01-instrumentacao-metricas.md) | Instrumentação com `prometheus_client` (`/metrics`, contadores por classe/erro, histograma com buckets) |
+| [etapa-02-prometheus.md](docs/etapas/Monitoramento/etapa-02-prometheus.md) | Configuração do servidor Prometheus para *scrape* a cada 5s |
+| [etapa-03-docker-compose.md](docs/etapas/Monitoramento/etapa-03-docker-compose.md) | Orquestração da stack unificada (API + Prometheus + Grafana) no Compose |
+| [etapa-04-grafana-dashboards.md](docs/etapas/Monitoramento/etapa-04-grafana-dashboards.md) | Provisionamento automático de DataSource e Dashboards no Grafana (8 painéis em tempo real) |

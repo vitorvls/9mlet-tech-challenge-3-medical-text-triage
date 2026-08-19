@@ -349,40 +349,40 @@ Você faz a API “contar” chamadas e tempos, o Prometheus coleta esses númer
 
 > Trabalhe junto com o Vini no mesmo serviço (PR coordenada).
 
-- [ ] Expor `GET /metrics`
-- [ ] Métrica de **contagem de requisições**
-- [ ] Métrica de **tempo de requisição** (latência)
-- [ ] (Recomendado) métrica de erros / status HTTP para um painel útil
+- [x] Expor `GET /metrics`
+- [x] Métrica de **contagem de requisições**
+- [x] Métrica de **tempo de requisição** (latência)
+- [x] (Recomendado) métrica de erros / status HTTP para um painel útil
 
 **Entregável:** API instrumentada.
 
 #### F2. Prometheus
 
-- [ ] Configurar Prometheus para fazer scrape da API
-- [ ] Confirmar que as métricas aparecem no Prometheus
+- [x] Configurar Prometheus para fazer scrape da API
+- [x] Confirmar que as métricas aparecem no Prometheus
 
 #### F3. Docker Compose (API + Prometheus + Grafana)
 
-- [ ] `docker-compose.yml` sobe os 3 serviços juntos
-- [ ] Documentar portas e como acessar
-- [ ] Time consegue subir com um comando combinado
+- [x] `docker-compose.yml` sobe os 3 serviços juntos
+- [x] Documentar portas e como acessar
+- [x] Time consegue subir com um comando combinado
 
 **Entregável:** Compose funcional.
 
 #### F4. Grafana (≥ 3 painéis) — pode começar o layout cedo
 
-- [ ] Dashboard com **pelo menos 3 painéis**
-- [ ] Exemplos válidos (FIAP): total de requisições, latência, taxa de erro
-- [ ] Exportar JSON do dashboard **ou** print claro
-- [ ] Salvar em `evidencias/`
+- [x] Dashboard com **pelo menos 3 painéis**
+- [x] Exemplos válidos (FIAP): total de requisições, latência, taxa de erro
+- [x] Exportar JSON do dashboard **ou** print claro
+- [x] Salvar em `evidencias/`
 
 **Entregável:** dashboard + evidência visual/JSON.
 
 ### Checkpoint Fernando A — “Stack de monitoramento sobe”
 
-- [ ] Compose sobe API + Prometheus + Grafana
-- [ ] `/metrics` populando após algumas chamadas
-- [ ] ≥ 3 painéis visíveis
+- [x] Compose sobe API + Prometheus + Grafana
+- [x] `/metrics` populando após algumas chamadas
+- [x] ≥ 3 painéis visíveis (8 painéis implementados)
 
 ---
 
@@ -571,7 +571,7 @@ Use esta lista na daily / sync semanal.
 | C0 | Kickoff | Decisões pendentes fechadas | `[ ]` PARCIAL — modelo desbloqueado; falta Edu |
 | CA-Vítor | Modelo baseline | Treina, salva, `predict` ok | `[x]` 2026-08-15 |
 | CA-Vini | API + Docker + baseline | API em Docker + latência inicial | `[x]` 2026-08-18 |
-| CA-Fernando | Monitoramento | Compose + ≥3 painéis | `[ ]` |
+| CA-Fernando | Monitoramento | Compose + ≥3 painéis | `[x]` 2026-08-18 |
 | CA-Edu | CI + DAG + cloud draft | Actions ≥2 + DAG + texto cloud | `[ ]` |
 | C2 | Integração | Texto→classe real + métricas + DAG + CI | `[ ]` |
 | CC-Vítor | Otimização | Original vs otimizado documentado | `[ ]` |
@@ -694,7 +694,7 @@ LLM (OpenRouter etc.) é um **segundo extra** em cima desta page: só conversa; 
 |--------|------------|----------|--------------------|
 | Vítor | CA-Vítor fechado; próximo = otimização (Semana C / Etapas 06–07) | — | CC-Vítor |
 | Vini | CA-Vini fechado; próximo = integração (Semana B) | — | C2 |
-| Fernando | | | CA-Fernando |
+| Fernando | CA-Fernando fechado; stack Compose + Prometheus + Grafana pronta | — | C2 |
 | Edu | | | CA-Edu |
 
 ---
