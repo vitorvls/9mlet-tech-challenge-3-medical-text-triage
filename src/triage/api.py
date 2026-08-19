@@ -19,6 +19,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from prometheus_client import (
     CONTENT_TYPE_LATEST,
     Counter,
+    Gauge,
     Histogram,
     generate_latest,
 )
@@ -44,6 +45,21 @@ _ERROR_COUNT = Counter(
     "triage_errors_total",
     "Total prediction errors",
     ["error_type"],
+)
+_CONFIDENCE_HISTOGRAM = Histogram(
+    "triage_prediction_confidence",
+    "Model prediction confidence score",
+    ["label"],
+    buckets=(0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95, 1.0),
+)
+_INPUT_LENGTH_HISTOGRAM = Histogram(
+    "triage_input_length_chars",
+    "Length of input medical report in characters",
+    buckets=(50, 100, 200, 300, 500, 1000, 2000, float("inf")),
+)
+_MODEL_LOADED_GAUGE = Gauge(
+    "triage_model_loaded",
+    "Model availability in memory (1 = loaded, 0 = unavailable)",
 )
 
 # ---------------------------------------------------------------------------
@@ -89,9 +105,11 @@ def _try_load_model() -> None:
 
         get_pipeline(_MODEL_PATH)
         _model_loaded = True
+        _MODEL_LOADED_GAUGE.set(1.0)
         logger.info("Model loaded from %s", _MODEL_PATH)
     except Exception as exc:  # noqa: BLE001
         _model_error = str(exc)
+        _MODEL_LOADED_GAUGE.set(0.0)
         logger.warning("Model not loaded at startup: %s", exc)
 
 
@@ -113,7 +131,7 @@ app = FastAPI(
 async def validation_exception_handler(
     request: Request, exc: RequestValidationError  # noqa: ARG001
 ) -> JSONResponse:
-    _ERROR_COUNT.labels(error_type="validation").inc()
+    _ERROR_COUNT.labels(error_type="erro_validacao").inc()
     return JSONResponse(status_code=422, content={"detail": exc.errors()})
 
 
@@ -130,18 +148,20 @@ def health() -> HealthResponse:
 @app.post("/predict", response_model=PredictResponse, tags=["inference"])
 def predict_endpoint(payload: PredictRequest, request: Request) -> PredictResponse:
     start = time.perf_counter()
+    _INPUT_LENGTH_HISTOGRAM.observe(len(payload.text))
     try:
         result = _run_predict(payload.text)
     except HTTPException:
-        _ERROR_COUNT.labels(error_type="http").inc()
+        _ERROR_COUNT.labels(error_type="erro_http").inc()
         raise
     except Exception:
-        _ERROR_COUNT.labels(error_type="internal").inc()
+        _ERROR_COUNT.labels(error_type="erro_interno").inc()
         raise
     finally:
         _REQUEST_LATENCY.observe(time.perf_counter() - start)
 
     _REQUEST_COUNT.labels(label=result["label"]).inc()
+    _CONFIDENCE_HISTOGRAM.labels(label=result["label"]).observe(result["confidence"])
     return PredictResponse(**result)
 
 

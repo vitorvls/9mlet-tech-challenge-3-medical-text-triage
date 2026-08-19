@@ -124,9 +124,12 @@ def test_metrics_populated_after_predict():
     r = client.get("/metrics")
     assert "triage_request_duration_seconds" in r.text
     assert 'triage_requests_total{label="urgente"}' in r.text
+    assert "triage_prediction_confidence" in r.text
+    assert "triage_input_length_chars" in r.text
+    assert "triage_model_loaded" in r.text
 
 
 def test_metrics_tracks_validation_errors():
     client.post("/predict", json={"text": ""})
     r = client.get("/metrics")
-    assert 'triage_errors_total{error_type="validation"}' in r.text
+    assert 'triage_errors_total{error_type="erro_validacao"}' in r.text

@@ -35,7 +35,10 @@ Ao instrumentar a aplicação com `prometheus-client`, a API passa a fornecer te
 |---|---|---|---|
 | `triage_requests_total` | `Counter` | `label` (`normal`, `atenção`, `urgente`) | Total de requisições de predição bem-sucedidas por classe |
 | `triage_request_duration_seconds` | `Histogram` | `le` (buckets) | Duração fim a fim da predição em segundos |
-| `triage_errors_total` | `Counter` | `error_type` (`validation`, `http`, `internal`) | Contagem de erros por categoria |
+| `triage_errors_total` | `Counter` | `error_type` (`erro_validacao`, `erro_http`, `erro_interno`) | Contagem de erros por categoria |
+| `triage_prediction_confidence` | `Histogram` | `label` | Escore de confiança da predição (0.5 a 1.0) para detecção de Data Drift |
+| `triage_input_length_chars` | `Histogram` | `le` | Tamanho do laudo clínico recebido em caracteres |
+| `triage_model_loaded` | `Gauge` | - | Indicador de liveness do modelo (1 = carregado, 0 = indisponível) |
 
 ### 3.2 Configuração de Buckets de Latência
 
@@ -51,7 +54,7 @@ _REQUEST_LATENCY = Histogram(
 
 ### 3.3 Tratamento de Erros de Validação
 
-Adicionamos um exception handler para `RequestValidationError` do FastAPI, garantindo que payloads com texto vazio, campos ausentes ou tipos incorretos incrementem `triage_errors_total{error_type="validation"}` antes de retornar HTTP 422 ao cliente.
+Adicionamos um exception handler para `RequestValidationError` do FastAPI, garantindo que payloads com texto vazio, campos ausentes ou tipos incorretos incrementem `triage_errors_total{error_type="erro_validacao"}` antes de retornar HTTP 422 ao cliente.
 
 ### 3.4 Endpoint `/metrics`
 
