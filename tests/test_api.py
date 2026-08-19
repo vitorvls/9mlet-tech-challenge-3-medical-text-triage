@@ -123,3 +123,10 @@ def test_metrics_populated_after_predict():
     client.post("/predict", json={"text": SEPSIS_REPORT})
     r = client.get("/metrics")
     assert "triage_request_duration_seconds" in r.text
+    assert 'triage_requests_total{label="urgente"}' in r.text
+
+
+def test_metrics_tracks_validation_errors():
+    client.post("/predict", json={"text": ""})
+    r = client.get("/metrics")
+    assert 'triage_errors_total{error_type="validation"}' in r.text

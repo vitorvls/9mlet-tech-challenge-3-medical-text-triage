@@ -14,7 +14,8 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import PlainTextResponse
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse, PlainTextResponse
 from prometheus_client import (
     CONTENT_TYPE_LATEST,
     Counter,
@@ -37,6 +38,7 @@ _REQUEST_COUNT = Counter(
 _REQUEST_LATENCY = Histogram(
     "triage_request_duration_seconds",
     "End-to-end prediction latency in seconds",
+    buckets=(0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 1.0, 2.5, float("inf")),
 )
 _ERROR_COUNT = Counter(
     "triage_errors_total",
@@ -105,6 +107,14 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(
+    request: Request, exc: RequestValidationError  # noqa: ARG001
+) -> JSONResponse:
+    _ERROR_COUNT.labels(error_type="validation").inc()
+    return JSONResponse(status_code=422, content={"detail": exc.errors()})
 
 
 # ---------------------------------------------------------------------------
