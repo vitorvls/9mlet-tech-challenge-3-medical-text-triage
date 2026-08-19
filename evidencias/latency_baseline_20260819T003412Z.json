@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-08-19T00:34:12.857292+00:00",
+  "target_url": "http://localhost:8765",
+  "n_requested": 100,
+  "n_succeeded": 100,
+  "mean_ms": 16.4,
+  "median_ms": 11.09,
+  "p95_ms": 34.58,
+  "p99_ms": 180.96,
+  "min_ms": 5.96,
+  "max_ms": 181.39
+}
