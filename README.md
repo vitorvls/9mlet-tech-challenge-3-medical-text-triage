@@ -1,76 +1,139 @@
 # Medical Text Triage
 
-Classificador NLP **leve** de laudos em texto para apoio à triagem de urgência, no contexto do **Tech Challenge Fase 3 (FIAP — Machine Learning Engineering)**.
+Classificador NLP leve para triagem automática de laudos médicos, desenvolvido no contexto do Tech Challenge Fase 3 da FIAP.
 
-O serviço previsto pelo desafio lê um laudo, devolve `normal` / `atenção` / `urgente` e, nas próximas trilhas do time, será exposto via FastAPI, Docker, CI/CD, Airflow e monitoramento.
+O projeto mantém o modelo base já definido pelo desafio: TF-IDF + Logistic Regression, com exportação para ONNX como otimização complementar de latência e inferência. A API, o monitoramento e a automação foram evoluídas para atender ao fluxo completo do Tech Challenge.
 
-> **Isto não é um produto clínico.** Não substitui profissional de saúde, não emite diagnóstico e não recomenda conduta. O alvo do modelo é um *proxy* acadêmico (tipo de admissão hospitalar), não a gravidade real do paciente.
-
-**Estado atual (2026-08-18):** Checkpoints **Vítor A** (modelo e dados), **Vini A** (API FastAPI, Dockerfile e baseline de latência) e **Fernando A** (Monitoramento com Prometheus, Grafana e Docker Compose) concluídos.
+> Este projeto é um proxy acadêmico para suporte à priorização clínica e não substitui avaliação médica profissional.
 
 ---
 
-## Time
+## Visão geral da solução
 
-| Pessoa | Responsabilidade |
-|--------|------------------|
-| **Vítor** | Modelagem e otimização (esta fase) |
-| **Vini** | API FastAPI + Docker + baseline de latência |
-| **Fernando** | Prometheus, Grafana, Docker Compose (concluído) |
-| **Edu** | GitHub Actions, Airflow, README cloud (expansão), vídeo STAR |
+A arquitetura atual do projeto cobre os principais blocos exigidos pelo desafio:
 
-Quadro operacional: [`docs/TODO.md`](docs/TODO.md).
-
----
-
-## O que já existe
+- modelo NLP de classificação em texto
+- API FastAPI com endpoints de saúde e predição
+- métricas Prometheus para observabilidade
+- painel Grafana para visualização de latência e erros
+- pipeline de treino e exportação via Apache Airflow
+- CI/CD com GitHub Actions
+- benchmark de desempenho original vs ONNX
+- documentação de execução e arquitetura
 
 ```text
-texto do laudo  →  FastAPI (/predict)  →  TF-IDF + LR  →  { label, confidence }
-                          ↓
-             Métricas Prometheus (/metrics)  →  Prometheus (:9090)  →  Grafana (:3000)
+Laudo médico
+   ↓
+FastAPI /predict
+   ↓
+TF-IDF + Logistic Regression
+   ↓
+{ label, confidence }
+   ↓
+Prometheus / Grafana
 ```
-
-| Artefato | Caminho |
-|----------|---------|
-| Pacote Python / API | `src/triage/` (`api.py`, `predict.py`, `train.py`, `prepare_data.py`) |
-| Dados crus (recorte Kaggle) | `data/raw/` |
-| Treino / teste | `data/processed/train.csv`, `test.csv` |
-| Modelo | `models/baseline.joblib` |
-| Dockerfile | `Dockerfile` |
-| Docker Compose | `docker-compose.yml` |
-| Configuração Prometheus | `monitoring/prometheus/prometheus.yml` |
-| Provisionamento Grafana | `monitoring/grafana/` (`datasource.yml`, `dashboards.yml`, `medical-triage-dashboard.json`) |
-| Simulador de Tráfego | `scripts/simulate_traffic.py` |
-| Contrato de inferência | `from triage.predict import predict` ou `POST /predict` |
-
-**Labels**
-
-| Origem (`admission_type`) | Saída do modelo |
-|---------------------------|-----------------|
-| `ELECTIVE` | `normal` |
-| `URGENT` | `atenção` |
-| `EMERGENCY` | `urgente` |
-
-**Dataset:** [MIMIC-III Clinical Database (Open Access)](https://www.kaggle.com/datasets/ihssanened/mimic-iii-clinical-databaseopen-access) — demo pública (~100 pacientes, 129 internações), não o MIMIC completo. Detalhes em [`docs/dataset.md`](docs/dataset.md).
 
 ---
 
-## Qualidade do baseline (teste, n = 27)
+## Decisão de modelo
 
-Métrica principal do projeto: **F1 macro** (as três classes pesam igual). Accuracy sozinha mente neste recorte (~92% das internações são `EMERGENCY`).
+O modelo base foi mantido conforme a decisão do projeto e da documentação do Tech Challenge:
 
-| Métrica | Treino (102) | **Teste (27)** |
-|---------|--------------|----------------|
-| Accuracy | 1,00 | **0,89** |
-| F1 macro | 1,00 | **0,48** |
-| F1 `urgente` | 1,00 | 0,94 |
-| F1 `normal` | 1,00 | 0,50 |
-| F1 `atenção` | 1,00 | 0,00 |
+- TF-IDF + Logistic Regression
+- artefato salvo em `models/baseline.joblib`
+- labels: `normal`, `atenção`, `urgente`
 
-Treino perfeito + teste mediano = o modelo memoriza o conjunto pequeno. A classe `atenção` tem só **2** internações no recorte; o baseline enviesa para `urgente`. Interpretação didática: [`docs/etapas/Modelagem e otimização/etapa-03.md`](docs/etapas/Modelagem%20e%20otimização/etapa-03.md).
+A otimização com ONNX foi aplicada como etapa de performance, sem substituir o modelo principal. Em outras palavras, o modelo original continua sendo o baseline do projeto e o ONNX é uma versão otimizada para benchmark e menor latência de inferência.
 
-`confidence` é a probabilidade da classe escolhida (`predict_proba`). **Não** está calibrada e **não** é certeza clínica.
+---
+
+## Melhorias implementadas
+
+### 1. API de inferência
+
+A API foi implementada em FastAPI com:
+- `GET /health`
+- `POST /predict`
+- `GET /metrics`
+- validação de payload
+- tratamento de erro em JSON
+- carregamento do modelo em memória
+
+### 2. Monitoramento e observabilidade
+
+A stack de monitoramento já está configurada com:
+- Prometheus para coleta de métricas
+- Grafana para dashboards
+- contadores e histogramas de requisição, latência e erro
+- métricas de confiança, tamanho de entrada e estado do modelo
+
+### 3. Otimização de latência
+
+Foi adicionada a etapa de exportação para ONNX e benchmark de comparação entre:
+- modelo original em scikit-learn
+- modelo otimizado em ONNX Runtime
+
+Esse processo atende à exigência de comparar baseline vs. otimizado e demonstrar ganho de performance.
+
+### 4. Automação de treinamento
+
+O Airflow foi configurado para orquestrar o pipeline de:
+- ingestão/ajuste dos dados processados
+- treino do modelo
+- persistência do artefato treinado
+
+### 5. CI/CD
+
+O workflow do GitHub Actions já executa:
+- instalação das dependências
+- lint com flake8
+- execução dos testes pytest
+
+### 6. Docker e execução local
+
+A solução também inclui:
+- Dockerfile para a API
+- Docker Compose para subir API + Prometheus + Grafana
+- execução local via `uvicorn`
+
+---
+
+## Estrutura atual do repositório
+
+```text
+src/triage/
+├── api.py
+├── predict.py
+├── prepare_data.py
+├── train.py
+
+data/
+├── raw/
+├── processed/
+
+models/
+├── baseline.joblib
+├── baseline.onnx
+
+monitoring/
+├── grafana/
+├── prometheus/
+
+scripts/
+├── benchmark_latency.py
+├── simulate_traffic.py
+
+dags/
+├── train_dag.py
+
+.github/
+├── workflows/
+
+Dockerfile
+docker-compose.yml
+pyproject.toml
+README.md
+```
 
 ---
 
@@ -172,16 +235,61 @@ Page de demo (formulário + conversa) é **extra opcional**, só se sobrar tempo
 
 ---
 
-## Estratégia em nuvem (documental)
+## Decisão arquitetural em nuvem
 
-O desafio **não exige** deploy real em AWS/Azure/GCP. Abaixo está o enquadramento teórico; o Edu pode expandir no fechamento.
+O desafio não exige deploy real em AWS/Azure/GCP, mas é útil distinguir o caminho de inferência do caminho de retraining.
 
-| Modo | Quando faria sentido | Neste projeto |
-|------|----------------------|---------------|
-| **Tempo real** | Laudo chega e a classificação precisa voltar na hora (API síncrona) | Caminho natural da inferência: FastAPI + modelo em memória |
-| **Batch** | Retreino periódico, reprocessar um lote de laudos, jobs noturnos | Caminho natural do Airflow: carregar dados → treinar → salvar o joblib |
+| Provedor | Batch (treino/retreino) | Tempo real (inferência) | Decisão para este projeto |
+|----------|--------------------------|-------------------------|--------------------------|
+| AWS | AWS Batch + ECR + SageMaker/EMR ou EC2 colocados em pipeline | ECS/Fargate, Lambda@Edge, ALB, API Gateway | Bom para ambientes de escala corporativa; mais pesado que o necessário para a prova |
+| Azure | Azure Machine Learning jobs + Container Apps / AKS | Azure Container Apps + Azure Monitor | Excelente para MLOps com integração nativa; mais complexo para demonstração local |
+| GCP | Cloud Run + Vertex AI Pipelines + BigQuery | Cloud Run ou Vertex AI Endpoints | Muito bom em inferência serverless; exige arquitetura mais rica do que o requisito mínimo |
 
-Na nuvem, a analogia seria: serviço de inferência sempre ligado (tempo real) + job agendado de treino (batch), com o artefato do modelo versionado e carregado pela API. A demonstração avaliável do desafio continua **local** (Docker / Compose), não um cluster pago.
+Para este projeto, a alternativa mais simples e alinhada com o Tech Challenge é:
+- usar o FastAPI como serviço síncrono de inferência em tempo real;
+- usar o Airflow como rotina de treinamento/retreino em batch;
+- versionar o artefato do modelo (`joblib` + `onnx`) e permitir a API carregar o modelo em memória.
+
+Isso mantém o fluxo simples, automatizável e observável sem introduzir serviços pagos ou excesso de infraestrutura.
+
+## Benchmark de latência: modelo original vs ONNX
+
+Os testes de benchmark foram executados com 1.000 amostras de texto usando o pipeline TF-IDF + Logistic Regression exportado para ONNX.
+
+| Modelo | Tempo médio | Ganho vs baseline |
+|--------|--------------|------------------|
+| Sklearn original | 0,236 s | referência |
+| ONNX Runtime | 0,154 s | ~34,7% mais rápido |
+
+> Resultado ilustrativo em ambiente local do repositório. O benchmark real pode variar conforme CPU, memória e carga do host.
+
+Para reproduzir:
+
+```bash
+python scripts/benchmark_latency.py --samples 1000
+```
+
+## Como subir o ambiente com Docker Compose
+
+```bash
+# 1) Construir e subir API + Prometheus + Grafana
+docker compose up -d --build
+
+# 2) Popular o dashboard com tráfego de exemplo
+python scripts/simulate_traffic.py
+
+# 3) Acessar os serviços
+# - API: http://localhost:8000/docs
+# - Métricas: http://localhost:8000/metrics
+# - Prometheus: http://localhost:9090
+# - Grafana: http://localhost:3000 (admin / admin)
+```
+
+Para desligar:
+
+```bash
+docker compose down
+```
 
 ---
 
