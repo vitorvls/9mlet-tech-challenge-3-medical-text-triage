@@ -1,9 +1,3 @@
-"""Benchmark sklearn vs ONNX inference latency for the triage model.
-
-The script compares the original joblib model with the exported ONNX artifact on a
-fixed batch of 1,000 samples and prints the percentage gain in speed.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -27,22 +21,25 @@ SAMPLE_TEXTS = [
 ]
 
 
-def _make_batch(size: int) -> list[str]:
-    return (SAMPLE_TEXTS * ((size // len(SAMPLE_TEXTS)) + 1))[:size]
+def _benchmark_model(model, inputs: list[str], repeats: int = 1000) -> float:
+    times: list[float] = []
+    for _ in range(repeats):
+        start = time.perf_counter()
+        for text in inputs:
+            model.predict([text])
+        times.append(time.perf_counter() - start)
+    return statistics.mean(times)
 
 
-def _benchmark_sklearn(model, texts: list[str]) -> float:
-    start = time.perf_counter()
-    model.predict(texts)
-    return time.perf_counter() - start
-
-
-def _benchmark_onnx(session, texts: list[str]) -> float:
+def _benchmark_onnx(session, inputs: list[str], repeats: int = 1000) -> float:
     input_name = session.get_inputs()[0].name
-    start = time.perf_counter()
-    for text in texts:
-        session.run(None, {input_name: np.array([text], dtype=object)})
-    return time.perf_counter() - start
+    times: list[float] = []
+    for _ in range(repeats):
+        start = time.perf_counter()
+        for text in inputs:
+            session.run(None, {input_name: np.array([text], dtype=object)})
+        times.append(time.perf_counter() - start)
+    return statistics.mean(times)
 
 
 def compare_latency(
@@ -50,27 +47,19 @@ def compare_latency(
     onnx_path: Path = DEFAULT_ONNX_PATH,
     samples: int = 1000,
 ) -> dict[str, float]:
-    if not model_path.exists():
-        raise FileNotFoundError(f"Missing sklearn model: {model_path}")
-    if not onnx_path.exists():
-        raise FileNotFoundError(f"Missing ONNX model: {onnx_path}")
-
-    model = joblib.load(model_path)
+    pipeline = joblib.load(model_path)
     session = ort.InferenceSession(str(onnx_path), providers=[
                                    "CPUExecutionProvider"])
-    texts = _make_batch(samples)
+    texts = (SAMPLE_TEXTS * ((samples // len(SAMPLE_TEXTS)) + 1))[:samples]
 
-    sklearn_time = _benchmark_sklearn(model, texts)
-    onnx_time = _benchmark_onnx(session, texts)
-    gain_pct = ((sklearn_time - onnx_time) / sklearn_time) * \
-        100 if sklearn_time else 0.0
+    sk_time = _benchmark_model(pipeline, texts, repeats=1)
+    onnx_time = _benchmark_onnx(session, texts, repeats=1)
+    gain_pct = ((sk_time - onnx_time) / sk_time) * 100 if sk_time else 0.0
 
     return {
-        "samples": samples,
-        "sklearn_seconds": round(sklearn_time, 6),
-        "onnx_seconds": round(onnx_time, 6),
+        "sklearn_mean_seconds": round(sk_time, 6),
+        "onnx_mean_seconds": round(onnx_time, 6),
         "gain_percent": round(gain_pct, 2),
-        "speedup_factor": round(sklearn_time / onnx_time, 2) if onnx_time else 0.0,
     }
 
 
@@ -83,10 +72,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: list[str] | None = None) -> None:
+def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     result = compare_latency(args.model_path, args.onnx_path, args.samples)
     print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
 
 
 if __name__ == "__main__":

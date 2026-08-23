@@ -32,14 +32,31 @@ logger = logging.getLogger("triage.api")
 # ---------------------------------------------------------------------------
 
 _REQUEST_COUNT = Counter(
-    "triage_requests_total",
+    "requests_total",
     "Total prediction requests",
     ["label"],
 )
 _REQUEST_LATENCY = Histogram(
-    "triage_request_duration_seconds",
+    "request_latency_seconds",
     "End-to-end prediction latency in seconds",
-    buckets=(0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 1.0, 2.5, float("inf")),
+    buckets=(0.001, 0.0025, 0.005, 0.01, 0.025, 0.05,
+             0.075, 0.1, 0.25, 0.5, 1.0, 2.5, float("inf")),
+)
+_REQUESTS_FAILED_TOTAL = Counter(
+    "requests_failed_total",
+    "Total failed prediction requests",
+    ["error_type"],
+)
+_TRIAGE_REQUEST_COUNT = Counter(
+    "triage_requests_total",
+    "Legacy compatibility counter for prediction requests",
+    ["label"],
+)
+_TRIAGE_REQUEST_LATENCY = Histogram(
+    "triage_request_duration_seconds",
+    "Legacy compatibility histogram for request duration",
+    buckets=(0.001, 0.0025, 0.005, 0.01, 0.025, 0.05,
+             0.075, 0.1, 0.25, 0.5, 1.0, 2.5, float("inf")),
 )
 _ERROR_COUNT = Counter(
     "triage_errors_total",
@@ -92,7 +109,8 @@ class HealthResponse(BaseModel):
 # Model loading (lazy, once per process)
 # ---------------------------------------------------------------------------
 
-_MODEL_PATH = Path(__file__).resolve().parents[2] / "models" / "baseline.joblib"
+_MODEL_PATH = Path(__file__).resolve(
+).parents[2] / "models" / "baseline.joblib"
 _model_loaded: bool = False
 _model_error: str | None = None
 
@@ -132,7 +150,16 @@ async def validation_exception_handler(
     request: Request, exc: RequestValidationError  # noqa: ARG001
 ) -> JSONResponse:
     _ERROR_COUNT.labels(error_type="erro_validacao").inc()
-    return JSONResponse(status_code=422, content={"detail": exc.errors()})
+    _REQUESTS_FAILED_TOTAL.labels(error_type="erro_validacao").inc()
+    sanitized = [
+        {
+            "loc": error.get("loc", []),
+            "msg": error.get("msg", "Validation error"),
+            "type": error.get("type", "value_error"),
+        }
+        for error in exc.errors()
+    ]
+    return JSONResponse(status_code=422, content={"detail": sanitized})
 
 
 # ---------------------------------------------------------------------------
@@ -151,17 +178,24 @@ def predict_endpoint(payload: PredictRequest, request: Request) -> PredictRespon
     _INPUT_LENGTH_HISTOGRAM.observe(len(payload.text))
     try:
         result = _run_predict(payload.text)
-    except HTTPException:
-        _ERROR_COUNT.labels(error_type="erro_http").inc()
+    except HTTPException as exc:
+        error_type = "erro_http" if exc.status_code >= 400 else "erro_interno"
+        _ERROR_COUNT.labels(error_type=error_type).inc()
+        _REQUESTS_FAILED_TOTAL.labels(error_type=error_type).inc()
         raise
     except Exception:
         _ERROR_COUNT.labels(error_type="erro_interno").inc()
+        _REQUESTS_FAILED_TOTAL.labels(error_type="erro_interno").inc()
         raise
     finally:
-        _REQUEST_LATENCY.observe(time.perf_counter() - start)
+        elapsed = time.perf_counter() - start
+        _REQUEST_LATENCY.observe(elapsed)
+        _TRIAGE_REQUEST_LATENCY.observe(elapsed)
 
     _REQUEST_COUNT.labels(label=result["label"]).inc()
-    _CONFIDENCE_HISTOGRAM.labels(label=result["label"]).observe(result["confidence"])
+    _TRIAGE_REQUEST_COUNT.labels(label=result["label"]).inc()
+    _CONFIDENCE_HISTOGRAM.labels(
+        label=result["label"]).observe(result["confidence"])
     return PredictResponse(**result)
 
 
