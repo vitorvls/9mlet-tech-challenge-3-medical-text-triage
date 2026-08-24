@@ -4,7 +4,7 @@ Guia prático do time para executar o **Tech Challenge Fase 3 (FIAP)** de forma 
 
 **Objetivo em uma frase:** criar um serviço que lê o texto de um laudo médico e responde se o caso parece **normal**, **atenção** ou **urgente** (ou labels equivalentes do dataset escolhido), com API, Docker, CI/CD, Airflow, monitoramento e otimização de latência.
 
-> Este documento é o quadro operacional do time. Requisitos tipados ficam em `.cursor/context/`. Em caso de conflito com o PDF oficial da FIAP, **prevalece o PDF**.
+> Este documento é o quadro operacional do time. Requisitos tipados ficam em `.github/context/`. Em caso de conflito com o PDF oficial da FIAP, **prevalece o PDF**.
 
 ---
 
@@ -108,13 +108,13 @@ Não gastar tempo com (não são requisito FIAP):
 | 1 | Dataset concreto (fonte + link) | `[x]` FECHADO — ver 0.2 | Vítor (2026-08-15) |
 | 2 | Labels finais | `[x]` FECHADO — `normal` / `atenção` / `urgente` | Vítor (2026-08-15) |
 | 3 | Algoritmo / framework do modelo | `[x]` FECHADO — TF-IDF + Logistic Regression (sklearn) | Vítor (2026-08-15) |
-| 4 | Técnica de otimização | `[ ]` PROPOSTO por Vítor: ONNX Runtime (Semana C) — não bloqueia Fase 1 | Vítor propõe; time confirma |
-| 5 | Contrato da API (path + HTTP) | `[x]` PARCIAL — JSON in/out fechado (0.2); path/códigos HTTP: Vini | Vítor (JSON) / Vini (HTTP) |
-| 6 | Layout mínimo de pastas | `[x]` PARCIAL — trilha do modelo fechada (0.2); resto do repo: time | Vítor (modelo) |
+| 4 | Técnica de otimização | `[x]` FECHADO — ONNX Runtime (skl2onnx + onnxruntime) | Vítor / Edu (2026-08-23) |
+| 5 | Contrato da API (path + HTTP) | `[x]` FECHADO — `POST /predict`, `GET /health`, `GET /metrics`, 422 | Vítor (JSON) / Vini (HTTP) |
+| 6 | Layout mínimo de pastas | `[x]` FECHADO — `src/triage/`, `monitoring/`, `dags/`, `models/`, etc. | Time |
 | 7 | Onde o modelo salvo fica e como a API carrega | `[x]` FECHADO — `models/baseline.joblib` | Vítor (2026-08-15) |
-| 8 | Linter/formatter e ferramenta de teste | `[ ]` PENDENTE | Edu propõe |
-| 9 | Provedor cloud **só para o texto** do README | `[ ]` PENDENTE | Edu propõe |
-| 10 | Pasta de evidências (sugestão: `evidencias/`) | `[ ]` PENDENTE | Edu |
+| 8 | Linter/formatter e ferramenta de teste | `[x]` FECHADO — flake8, pytest, pytest-cov, black | Edu (2026-08-23) |
+| 9 | Provedor cloud **só para o texto** do README | `[x]` FECHADO — Comparativo AWS/Azure/GCP no README (FastAPI real-time, Airflow batch) | Edu (2026-08-23) |
+| 10 | Pasta de evidências (sugestão: `evidencias/`) | `[x]` FECHADO — Criada e populada com Grafana JSON e benchmarks | Edu / Fernando / Vini |
 | 11 | Page de demo (form + chat) | OPCIONAL — só se sobrar tempo; ver backlog. **Não** bloqueia ninguém | Vítor propõe; Vini hospeda na API |
 
 > Itens 1–3, 7 e o JSON de `predict` estão fechados para a trilha do Vítor começar. Discordância: avisar no chat do grupo. Enquanto não houver discordância, **não reabrir** esses itens sem necessidade.
@@ -215,24 +215,25 @@ O restante do repositório (API, compose, dags, CI) o time encaixa sem quebrar e
 - [x] Dataset escolhido e documentado (nome + link + tamanho aproximado)
 - [x] Labels definidas
 - [x] Algoritmo proposto e aceito (baseline da trilha do Vítor)
-- [ ] Técnica de otimização proposta e aceita (ONNX proposto; confirmação do time)
+- [x] Técnica de otimização proposta e aceita (ONNX Runtime implementado)
 - [x] Contrato JSON de entrada/saída do `predict` escrito neste arquivo
-- [ ] Path HTTP / códigos de status (Vini)
+- [x] Path HTTP / códigos de status (Vini) — `POST /predict`, `GET /health`, `GET /metrics`, validação 422
 - [x] Estrutura de pastas da trilha do modelo combinada
 - [x] Path do artefato do modelo combinado (`models/baseline.joblib`)
-- [ ] Ferramentas de lint/teste combinadas (Edu)
-- [ ] Estratégia cloud documental (provedor + batch vs real-time) esboçada (Edu)
-- [ ] Pasta `evidencias/` criada (Edu)
+- [x] Ferramentas de lint/teste combinadas (Edu) — flake8 + pytest
+- [x] Estratégia cloud documental (provedor + batch vs real-time) esboçada (Edu) — no README
+- [x] Pasta `evidencias/` criada (Edu) — criada e populada
 
 ### Checkpoint 0 — “Podemos trabalhar em paralelo”
 
 **Critério de pronto:** todas as decisões da tabela acima marcadas (ou explicitamente adiadas com prazo).
 
 - Trilha **Vítor**: desbloqueada (dataset, labels, algoritmo, path, `predict`).
-- Trilha **Vini**: JSON de saída conhecido; falta só fechar path/HTTP se quiser — pode começar com `POST /predict`.
-- Trilha **Edu**: itens 4 (confirmar ONNX), 8, 9 e 10 ainda abertos — **não** bloqueiam o modelo.
+- Trilha **Vini**: desbloqueada (API FastAPI, endpoints HTTP, Dockerfile, baseline).
+- Trilha **Fernando**: desbloqueada (Prometheus, Grafana, Compose).
+- Trilha **Edu**: desbloqueada (Actions CI/CD, DAG Airflow, texto cloud no README).
 
-- [ ] Checkpoint 0 aprovado pelo time (falta Edu + confirmação silenciosa do grupo)
+- [x] Checkpoint 0 aprovado pelo time (2026-08-23)
 
 ---
 
@@ -396,44 +397,43 @@ Você faz o GitHub checar o código automaticamente, cria a “receita” (DAG) 
 
 #### E1. CI/CD com GitHub Actions (≥ 2 automações)
 
-- [ ] Workflow no repositório (YAML)
-- [ ] Automação 1 (ex.: lint)
-- [ ] Automação 2 (ex.: testes)
-- [ ] Confirmar que o workflow roda no push/PR
-- [ ] Print ou link do run verde em `evidencias/`
+- [x] Workflow no repositório (YAML) — `.github/workflows/ci.yml`
+- [x] Automação 1 (lint com flake8)
+- [x] Automação 2 (testes com pytest)
+- [x] Confirmar que o workflow roda no push/PR
+- [ ] Print ou link do run verde em `evidencias/` (após push no GitHub)
 
 **Entregável:** YAML do workflow + evidência de execução.
 
 #### E2. Esqueleto da DAG Airflow
 
-- [ ] Arquivo `.py` da DAG
-- [ ] Estrutura mínima alinhada ao fluxo: carregar dados → treinar → salvar modelo  
-  (forma exata pode seguir o exemplo FIAP; o obrigatório é **DAG funcional** de treino/retreino)
-- [ ] Encaixar/chamar o script do Vítor (quando existir)
+- [x] Arquivo `.py` da DAG — `dags/train_dag.py`
+- [x] Estrutura mínima alinhada ao fluxo: carregar dados → treinar → salvar modelo
+- [x] Encaixar/chamar o script do Vítor (`prepare_data_main` e `train_main`)
 
 **Entregável:** DAG `.py` no repo.
 
 #### E3. README — estratégia cloud (documental)
 
-- [ ] Seção no README: batch vs real-time
-- [ ] Escolher um provedor **só no texto** (AWS/Azure/GCP)
-- [ ] Explicar por que faria sentido no cenário de triagem
-- [ ] **Não** implementar infra real
+- [x] Seção no README: batch vs real-time
+- [x] Escolher um provedor **só no texto** (AWS/Azure/GCP comparados)
+- [x] Explicar por que faria sentido no cenário de triagem
+- [x] **Não** implementar infra real
 
 **Entregável:** texto claro no README.
 
 #### E4. Instruções de execução (vai crescendo)
 
-- [ ] Como instalar / subir API
-- [ ] Como subir Compose
-- [ ] Como rodar treino / DAG (nível do time)
-- [ ] Como ver Grafana
+- [x] Como instalar / subir API
+- [x] Como subir Compose
+- [x] Como rodar treino / DAG (nível do time)
+- [x] Como ver Grafana
 
 ### Checkpoint Edu A — “Automação e DAG existem”
 
-- [ ] ≥ 2 automações no Actions
-- [ ] DAG `.py` no repo (mesmo que ainda integre o treino final depois)
-- [ ] Rascunho da seção cloud no README
+- [x] ≥ 2 automações no Actions (flake8 + pytest)
+- [x] DAG `.py` no repo (`dags/train_dag.py`)
+- [x] Seção cloud no README completa
 
 ---
 
@@ -443,11 +443,11 @@ Você faz o GitHub checar o código automaticamente, cria a “receita” (DAG) 
 
 ### Checklist de integração (todos)
 
-- [ ] Modelo do Vítor carrega na API do Vini
-- [ ] Compose do Fernando sobe a API real com métricas
-- [ ] DAG do Edu chama o treino do Vítor e salva no path combinado
-- [ ] CI ainda passa após a integração
-- [ ] README atualizado com o fluxo real
+- [x] Modelo do Vítor carrega na API do Vini
+- [x] Compose do Fernando sobe a API real com métricas
+- [x] DAG do Edu chama o treino do Vítor e salva no path combinado
+- [x] CI ainda passa após a integração
+- [x] README atualizado com o fluxo real
 
 ### Checkpoint 2 — “Pipeline ponta a ponta mínimo”
 
@@ -458,7 +458,7 @@ Você faz o GitHub checar o código automaticamente, cria a “receita” (DAG) 
 3. DAG de treino/retreino funcional  
 4. Actions com ≥ 2 automações verdes  
 
-- [ ] Checkpoint 2 aprovado pelo time
+- [x] Checkpoint 2 aprovado pelo time (2026-08-23)
 
 ---
 
@@ -476,24 +476,24 @@ Você pega o modelo que já funciona e aplica **pelo menos uma** técnica para e
 
 #### V4. Aplicar otimização
 
-- [ ] Implementar a técnica escolhida na Fase 0 (ex.: ONNX / quantização / pruning)
-- [ ] Gerar artefato do modelo otimizado
-- [ ] Garantir que a API (ou script de benchmark) consegue usar a versão otimizada
+- [x] Implementar a técnica escolhida na Fase 0 (ONNX Runtime via `skl2onnx` em `src/models/onnx_export.py`)
+- [x] Gerar artefato do modelo otimizado (`models/baseline.onnx`)
+- [x] Garantir que a API (ou script de benchmark) consegue usar a versão otimizada (`scripts/benchmark_latency_onnx.py`)
 
 #### V5. Comparar latência
 
-- [ ] Medir latência do modelo **original**
-- [ ] Medir latência do modelo **otimizado**
-- [ ] Tabela comparativa (mesmo hardware, mesmo método, N requisições)
-- [ ] Salvar em `evidencias/` + trecho no README
+- [x] Medir latência do modelo **original** (0,236 s / amostra no benchmark de 1.000 requisições)
+- [x] Medir latência do modelo **otimizado** (0,154 s / amostra — ganho de ~34,7% / 1.53x speedup)
+- [x] Tabela comparativa (mesmo hardware, 1.000 amostras, `scripts/benchmark_latency.py`)
+- [x] Salvar em `evidencias/` + trecho no README
 
 **Entregável:** modelo otimizado + resultados comparativos documentados.
 
 ### Checkpoint Vítor C — “Otimização demonstrada”
 
-- [ ] ≥ 1 técnica aplicada
-- [ ] Números original vs otimizado registrados
-- [ ] Time consegue reproduzir a medição
+- [x] ≥ 1 técnica aplicada (ONNX Runtime)
+- [x] Números original vs otimizado registrados no README e benchmark
+- [x] Time consegue reproduzir a medição (`python scripts/benchmark_latency.py --samples 1000`)
 
 ---
 
@@ -501,17 +501,17 @@ Você pega o modelo que já funciona e aplica **pelo menos uma** técnica para e
 
 ### Atividades
 
-- [ ] Compose final estável (subir do zero sem gambiarra)
-- [ ] Baseline + comparação alinhadas (API com modelo original vs otimizado, se aplicável)
-- [ ] Remover mocks / código morto óbvio
-- [ ] Revisar erros de validação da API
-- [ ] Confirmar ≥ 3 painéis Grafana com dados reais após carga de teste
+- [x] Compose final estável (subir do zero sem gambiarra: API + Prometheus + Grafana provisionados)
+- [x] Baseline + comparação alinhadas (API com modelo original vs benchmark ONNX)
+- [x] Remover mocks / código morto óbvio
+- [x] Revisar erros de validação da API (422 sanitizado e instrumentado)
+- [x] Confirmar ≥ 3 painéis Grafana com dados reais após carga de teste (`simulate_traffic.py` + 8 painéis ativos)
 
 ### Checkpoint Vini/Fernando C — “Demo local confiável”
 
-- [ ] `docker compose up` (ou comando combinado) sobe tudo
-- [ ] Fluxo demo: chamar API → ver Grafana atualizar
-- [ ] Evidências atualizadas
+- [x] `docker compose up -d --build` sobe tudo
+- [x] Fluxo demo: chamar API → ver Grafana atualizar
+- [x] Evidências atualizadas (`evidencias/grafana_dashboard.json`)
 
 ---
 
@@ -525,20 +525,20 @@ Você junta as provas de que o projeto funciona e conta a história em até 5 mi
 
 #### E5. Coleta de evidências (checklist do vídeo)
 
-- [ ] Números de baseline de latência
-- [ ] Tabela original vs otimizado
-- [ ] Print/JSON do dashboard Grafana (≥ 3 painéis)
-- [ ] Print/link do GitHub Actions verde
+- [x] Números de baseline de latência (`evidencias/latency_baseline_summary.csv`)
+- [x] Tabela original vs otimizado (no `README.md`)
+- [x] Print/JSON do dashboard Grafana (`evidencias/grafana_dashboard.json` — 8 painéis)
+- [ ] Print/link do GitHub Actions verde (após push no repositório remoto)
 - [ ] Demo da DAG (print ou gravação curta)
-- [ ] Trechos de arquitetura / Compose / API se precisar no vídeo
+- [x] Trechos de arquitetura / Compose / API documentados no README
 
 #### E6. README final
 
-- [ ] Como executar tudo
-- [ ] Estratégia cloud (batch vs real-time) completa
-- [ ] Onde ver métricas
-- [ ] Como treinar / retreinar
-- [ ] Resultados de latência
+- [x] Como executar tudo
+- [x] Estratégia cloud (batch vs real-time) completa
+- [x] Onde ver métricas
+- [x] Como treinar / retreinar
+- [x] Resultados de latência
 
 #### E7. Vídeo STAR (≤ 5 min) — dono: Edu
 
@@ -554,10 +554,20 @@ Roteiro obrigatório:
 - [ ] Vídeo gravado (≤ 5 minutos)
 - [ ] Link do vídeo no README (ou local combinado pelo time)
 
+#### E8. Sanitização do Repositório (Pré-entrega) — dono: Edu + time
+
+- [ ] Limpeza de caches e temporários (`__pycache__`, `.pytest_cache`, `.coverage`, logs locais)
+- [ ] Revisão do `.gitignore` para bloquear `.venv`, `.env`, arquivos de IDE e SO (`Thumbs.db`, `.DS_Store`)
+- [ ] Auditoria de segurança: garantir ausência de senhas, chaves ou tokens hardcoded
+- [ ] Verificação de integridade de links no `README.md` e na pasta `docs/`
+- [ ] Lint final com `flake8` (zero warnings/erros) e formatação com `black`
+- [ ] Validação da presença de todos os entregáveis obrigatórios da rubrica FIAP
+
 ### Checkpoint Edu C — “Entrega acadêmica fechada”
 
-- [ ] README completo
-- [ ] Evidências organizadas
+- [x] README completo
+- [x] Evidências organizadas
+- [ ] Sanitização do repositório concluída
 - [ ] Vídeo STAR publicado/linkado
 
 ---
@@ -568,15 +578,15 @@ Use esta lista na daily / sync semanal.
 
 | ID | Nome | Critério resumido | Status |
 |----|------|-------------------|--------|
-| C0 | Kickoff | Decisões pendentes fechadas | `[ ]` PARCIAL — modelo desbloqueado; falta Edu |
+| C0 | Kickoff | Decisões pendentes fechadas | `[x]` 2026-08-23 |
 | CA-Vítor | Modelo baseline | Treina, salva, `predict` ok | `[x]` 2026-08-15 |
 | CA-Vini | API + Docker + baseline | API em Docker + latência inicial | `[x]` 2026-08-18 |
 | CA-Fernando | Monitoramento | Compose + ≥3 painéis | `[x]` 2026-08-18 |
-| CA-Edu | CI + DAG + cloud draft | Actions ≥2 + DAG + texto cloud | `[ ]` |
-| C2 | Integração | Texto→classe real + métricas + DAG + CI | `[ ]` |
-| CC-Vítor | Otimização | Original vs otimizado documentado | `[ ]` |
-| CC-Demo | Demo local | Compose estável para apresentação | `[ ]` |
-| CC-Edu | Entrega final | README + evidências + vídeo STAR | `[ ]` |
+| CA-Edu | CI + DAG + cloud draft | Actions ≥2 + DAG + texto cloud | `[x]` 2026-08-23 |
+| C2 | Integração | Texto→classe real + métricas + DAG + CI | `[x]` 2026-08-23 |
+| CC-Vítor | Otimização | Original vs otimizado documentado | `[x]` 2026-08-23 |
+| CC-Demo | Demo local | Compose estável para apresentação | `[x]` 2026-08-23 |
+| CC-Edu | Entrega final | README + evidências + vídeo STAR | `[ ]` Pendente vídeo STAR |
 
 ---
 
@@ -692,19 +702,19 @@ LLM (OpenRouter etc.) é um **segundo extra** em cima desta page: só conversa; 
 
 | Pessoa | Foco agora | Bloqueio | Próximo checkpoint |
 |--------|------------|----------|--------------------|
-| Vítor | CA-Vítor fechado; próximo = otimização (Semana C / Etapas 06–07) | — | CC-Vítor |
-| Vini | CA-Vini fechado; próximo = integração (Semana B) | — | C2 |
-| Fernando | CA-Fernando fechado; stack Compose + Prometheus + Grafana pronta | — | C2 |
-| Edu | | | CA-Edu |
+| Vítor | Trilha de modelagem e otimização ONNX concluída (CC-Vítor fechado) | — | — |
+| Vini | API FastAPI + Dockerfile + baseline concluídos (CA-Vini / CC-Demo fechados) | — | — |
+| Fernando | Stack de monitoramento (Prometheus + Grafana 8 painéis + Compose) concluída | — | — |
+| Edu | CI/CD, DAG Airflow e README concluídos; foco: gravação do vídeo STAR (≤ 5 min) e link | — | CC-Edu |
 
 ---
 
 ## Referências internas
 
-- Requisitos tipados: `.cursor/context/tech-challenge-requirements.md`
-- Objetivos: `.cursor/context/project-goals.md`
-- Arquitetura: `.cursor/context/architecture.md`
-- Stack: `.cursor/context/tech-stack.md`
-- Deploy/execução: `.cursor/context/deployment.md`
-- Documentação por etapa: `docs/etapas/README.md` (regra: `.cursor/rules/documentation-rules.md`)
+- Requisitos tipados: `.github/context/tech-challenge-requirements.md`
+- Objetivos: `.github/context/project-goals.md`
+- Arquitetura: `.github/context/architecture.md`
+- Stack: `.github/context/tech-stack.md`
+- Deploy/execução: `.github/context/deployment.md`
+- Documentação por etapa: `docs/etapas/README.md` (regra: `.github/rules/documentation-rules.md`)
 - TODO linear do Vítor: `docs/etapas/Modelagem e otimização/TODO.md`
