@@ -40,8 +40,8 @@ def _benchmark_sklearn(model, texts: list[str]) -> float:
 def _benchmark_onnx(session, texts: list[str]) -> float:
     input_name = session.get_inputs()[0].name
     start = time.perf_counter()
-    for text in texts:
-        session.run(None, {input_name: np.array([text], dtype=object)})
+    # Perform batched inference instead of loop to match sklearn.predict behavior
+    session.run(None, {input_name: np.array(texts, dtype=object).reshape(-1, 1)})
     return time.perf_counter() - start
 
 
