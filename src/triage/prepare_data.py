@@ -62,16 +62,53 @@ def age_at_admission(dob: pd.Timestamp, admittime: pd.Timestamp) -> int:
 
 
 def build_report(diagnosis: str, sex: str, age: int, lab_lines: list[str]) -> str:
+    import random
+    
+    # Noise 1: Missing diagnosis (approx 20% of the time)
+    if random.random() < 0.20:
+        diagnosis = random.choice(["Pending investigation", "Unknown", "Not recorded", "Under observation"])
+        
+    # Noise 2: Typos in diagnosis (approx 10% of the time)
+    elif random.random() < 0.10:
+        diagnosis = diagnosis.lower().replace("a", "e").replace("i", "y")
+        
     parts = [
         f"Diagnosis: {diagnosis}",
         f"Sex: {sex}",
         f"Age: {age}",
     ]
+    
+    # Noise 3: Negations that confuse TF-IDF (approx 20% of the time)
+    if random.random() < 0.20:
+        negations = [
+            "Patient denies any fever or chills.",
+            "No signs of sepsis.",
+            "Stroke ruled out.",
+            "No acute trauma observed.",
+            "Patient does not have severe abdominal pain."
+        ]
+        parts.append(f"Notes: {random.choice(negations)}")
+
     if lab_lines:
         parts.append("Abnormal lab results:")
+        # Noise 4: Dropping some lab lines randomly to simulate incomplete records
+        if random.random() < 0.15 and len(lab_lines) > 1:
+            lab_lines = lab_lines[:-1]
         parts.extend(lab_lines)
     else:
         parts.append("Abnormal lab results: none recorded")
+        
+    # Noise 5: General unstructured clinical noise
+    if random.random() < 0.30:
+        noise_notes = [
+            "Patient resting comfortably.",
+            "Awaiting further physician review.",
+            "Family present at bedside.",
+            "Vitals are stable at this time.",
+            "Follow-up required in 24 hours."
+        ]
+        parts.append(random.choice(noise_notes))
+        
     return "\n".join(parts)
 
 

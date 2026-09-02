@@ -107,6 +107,13 @@ def send_request(url: str, item: dict) -> tuple[int, str]:
 
 
 def main() -> None:
+    # Ensure UTF-8 output when possible on Windows console
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
     parser = argparse.ArgumentParser(
         description="Simulate continuous traffic for Medical Text Triage API (calibrated for 99% availability & 1% error budget).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -129,6 +136,18 @@ def main() -> None:
         help="Delay between requests in seconds (default: 0.3s)",
     )
     parser.add_argument(
+        "--rate",
+        type=float,
+        default=None,
+        help="Requests per second (optional, overrides --delay as 1/rate)",
+    )
+    parser.add_argument(
+        "--duration",
+        type=float,
+        default=None,
+        help="Duration to run in seconds (optional, stops automatically after duration)",
+    )
+    parser.add_argument(
         "--error-rate",
         type=float,
         default=0.01,
@@ -136,20 +155,27 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    delay = 1.0 / args.rate if args.rate and args.rate > 0 else args.delay
+
     # Separa pools de válidos e inválidos
     valid_pool = [s for s in SAMPLES if s["type"] == "valid"]
     invalid_pool = [s for s in SAMPLES if s["type"] == "invalid"]
 
-    is_continuous = args.count <= 0
-    total_target = "∞ (contínuo até Ctrl+C)" if is_continuous else str(args.count)
+    is_continuous = args.count <= 0 and args.duration is None
+    if args.duration:
+        mode_str = f"Por tempo ({args.duration}s)"
+    elif is_continuous:
+        mode_str = "Contínuo (pressione Ctrl+C para parar)"
+    else:
+        mode_str = f"Fixo ({args.count} requisições)"
 
     print("=" * 68)
-    print(f"  Medical Text Triage — Gerador Contínuo de Tráfego")
+    print("  Medical Text Triage — Gerador Contínuo de Tráfego")
     print(f"  Target URL       : {args.url}")
-    print(f"  Modo             : {'Contínuo (pressione Ctrl+C para parar)' if is_continuous else f'Fixo ({args.count} requisições)'}")
-    print(f"  Intervalo        : {args.delay}s por requisição")
+    print(f"  Modo             : {mode_str}")
+    print(f"  Intervalo        : {delay:.3f}s por requisição")
     print(f"  Taxa de Erro     : {args.error_rate * 100:.1f}% (Alvo SLA Disponibilidade: 99.0%)")
-    print(f"  Grafana          : http://localhost:3000")
+    print("  Grafana          : http://localhost:3000")
     print("=" * 68 + "\n")
 
     counts: dict[str, int] = {}
@@ -160,8 +186,11 @@ def main() -> None:
 
     try:
         while True:
+            elapsed = time.perf_counter() - start_time
+            if args.duration and elapsed >= args.duration:
+                break
             i += 1
-            if not is_continuous and i > args.count:
+            if not is_continuous and args.count > 0 and i > args.count:
                 break
 
             # Sorteia se esta requisição será um erro (1%) ou sucesso (99%)
@@ -178,9 +207,15 @@ def main() -> None:
             else:
                 error_count += 1
 
-            count_str = f"{i:05d}" if is_continuous else f"{i:03d}/{args.count}"
+            if is_continuous:
+                count_str = f"{i:05d}"
+            elif args.duration:
+                count_str = f"{i:05d} ({elapsed:.1f}s)"
+            else:
+                count_str = f"{i:03d}/{args.count}"
+
             print(f"[{count_str}] Status HTTP: {status} | Predição/Resultado: {label_or_err:<22} ({sample['description']})")
-            time.sleep(args.delay)
+            time.sleep(delay)
 
     except KeyboardInterrupt:
         print("\n\n[!] Interrupção manual solicitada (Ctrl+C). Finalizando...")
@@ -190,10 +225,10 @@ def main() -> None:
 
     availability_pct = (success_count / total_requests * 100) if total_requests > 0 else 100.0
     error_budget_pct = (error_count / total_requests * 100) if total_requests > 0 else 0.0
-    sla_status = "🟢 DENTRO DO SLA (>= 99.0%)" if availability_pct >= 99.0 else "🔴 SLA VIOLADO (< 99.0%)"
+    sla_status = "[OK] DENTRO DO SLA (>= 99.0%)" if availability_pct >= 99.0 else "[ALERTA] SLA VIOLADO (< 99.0%)"
 
     print("\n" + "=" * 68)
-    print(f"  Resumo da Simulação & Métricas de SLA")
+    print("  Resumo da Simulação & Métricas de SLA")
     print(f"  Total de requisições enviadas : {total_requests}")
     print(f"  Requisições com Sucesso (200) : {success_count}")
     print(f"  Requisições com Falha (4xx)   : {error_count}")
@@ -212,3 +247,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

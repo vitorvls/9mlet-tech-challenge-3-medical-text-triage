@@ -157,15 +157,17 @@ Sobe simultaneamente a **API de Triagem**, o **Prometheus** e o **Grafana** (com
 # 1. Subir os containers em background
 docker compose up -d --build
 
-# 2. Gerar tráfego contínuo para popular os gráficos em tempo real (encerra com Ctrl+C)
-python scripts/simulate_traffic.py
+# 2. Gerar tráfego para popular os gráficos em tempo real (ex: 10 req/s por 30s, ou sem flags para contínuo até Ctrl+C)
+python scripts/simulate_traffic.py --rate 10 --duration 30
 
 # 3. Acessar os serviços no navegador:
 # - API Swagger Docs: http://localhost:8000/docs
 # - Métricas Prometheus: http://localhost:8000/metrics
 # - Servidor Prometheus: http://localhost:9090
-# - Painéis Grafana: http://localhost:3000 (Acesso anônimo liberado / admin:admin)
+# - Painéis Grafana: http://localhost:3000 (admin / admin)
 ```
+
+> **Nota sobre portas (Port 8000):** Se você estava executando o `uvicorn` localmente antes do Docker, encerre o processo Python local para liberar a porta 8000 antes de rodar `docker compose up`.
 
 Para parar os serviços:
 ```bash
@@ -177,6 +179,7 @@ docker compose down
 ```powershell
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 
 # Preparar dados e treinar modelo
@@ -187,7 +190,7 @@ python src/triage/train.py
 uvicorn triage.api:app --reload --port 8000
 ```
 
-Inferência via código Python:
+#### Inferência via código Python:
 
 ```python
 from triage.predict import predict
@@ -196,13 +199,21 @@ predict("Diagnosis: SEPSIS\nSex: F\nAge: 70")
 # {"label": "urgente", "confidence": 0.58}
 ```
 
-Inferência via HTTP `POST /predict`:
+#### Inferência via HTTP `POST /predict`:
 
+- **No Bash / Linux / macOS (curl):**
 ```bash
 curl -X POST http://localhost:8000/predict \
   -H "Content-Type: application/json" \
   -d '{"text": "Diagnosis: SEPSIS\nSex: F\nAge: 70\nAbnormal lab results:\n- Lactate: 4.1 mmol/L (abnormal)"}'
 ```
+
+- **No PowerShell (Windows):**
+```powershell
+$body = @{ text = "Diagnosis: SEPSIS`nSex: F`nAge: 70`nAbnormal lab results:`n- Lactate: 4.1 mmol/L (abnormal)" } | ConvertTo-Json
+Invoke-RestMethod -Uri http://localhost:8000/predict -Method POST -ContentType "application/json" -Body $body
+```
+
 
 ---
 

@@ -52,19 +52,19 @@ Legenda: `[ ]` pendente · `[x]` feita **e** documentada.
 
 Não começar antes do Checkpoint Vítor A, salvo justificativa técnica no `.md`.
 
-- [ ] **Etapa 06 — Exportar modelo otimizado (proposta: ONNX)**
-  - **Objetivo:** Pelo menos uma técnica de latência vista no curso; ONNX está **proposto** no §0.2 (time ainda pode confirmar).
-  - **Pré-requisitos:** Etapa 05; confirmação silenciosa ou explícita de ONNX (se o time escolher outra técnica, atualizar este TODO e o §0.2 **antes** de implementar).
-  - **Implementação:** artefato otimizado (ex. `models/baseline.onnx`) + caminho de inferência usável por script de benchmark (e, se combinado, pela API).
-  - **Conclusão:** arquivo otimizado existe; mesmo contrato de saída (`label` + `confidence`).
-  - **Documento:** `etapa-06.md` (técnica, por que ONNX, alternativas, como converte o Pipeline).
+- [x] **Etapa 06 — Exportar modelo otimizado (proposta: ONNX)**
+  - **Objetivo:** Pelo menos uma técnica de latência vista no curso; ONNX implementado com `skl2onnx` e `onnxruntime`.
+  - **Pré-requisitos:** Etapa 05.
+  - **Implementação:** artefato otimizado (`models/baseline.onnx`) + módulo `src/models/onnx_export.py` e script de benchmark `scripts/benchmark_latency_onnx.py`.
+  - **Conclusão:** arquivo `models/baseline.onnx` gerado; função `predict_onnx` e testes em `tests/test_model.py`.
+  - **Documento:** `etapa-06.md`
 
-- [ ] **Etapa 07 — Comparar latência original vs otimizado**
+- [x] **Etapa 07 — Comparar latência original vs otimizado**
   - **Objetivo:** Números que entram no README e no vídeo STAR.
   - **Pré-requisitos:** Etapa 06.
-  - **Implementação:** mesmo hardware, mesmo conjunto de textos, N requisições; média e p95 (ou o método combinado com o Vini); tabela.
-  - **Conclusão:** tabela no `.md` e cópia/apontamento para evidências do Edu; comando reproduzível.
-  - **Documento:** `etapa-07.md` (método de medição, resultados, interpretação, limitações do hardware).
+  - **Implementação:** 1.000 amostras comparando scikit-learn vs ONNX Runtime via `scripts/benchmark_latency.py`.
+  - **Conclusão:** Sklearn 0,236 s vs ONNX 0,154 s (~34,7% mais rápido / 1.53x speedup), registrado no `README.md`.
+  - **Documento:** `etapa-07.md`
 
 ---
 
