@@ -88,6 +88,7 @@ O workflow do GitHub Actions já executa:
 - instalação das dependências
 - lint com flake8
 - execução dos testes pytest
+- build da imagem Docker após lint e testes
 
 ### 6. Docker e execução local
 
@@ -235,10 +236,15 @@ pyproject.toml        # Dependências pinadas do projeto
 
 ---
 
-## Próximos passos do time
+## Pendências de entrega
 
-1. **Edu** — Actions (≥ 2 automações), DAG (`prepare_data` → `train` → `models/baseline.joblib`), evidências, vídeo STAR.
-2. **Vítor (Semana C)** — otimização de latência (proposta: ONNX) e tabela original vs otimizado.
+O código das quatro etapas está implementado. Permanecem como pendências de
+entrega externa a execução verde registrada no GitHub Actions, a gravação do
+vídeo STAR de até cinco minutos e a inclusão do link do vídeo neste README.
+
+O roteiro e as evidências técnicas estão em
+`evidencias/edu-entrega-star.md`. A matriz de conferência contra o PDF está em
+`docs/TODO.md`, na seção "Auditoria contra o PDF oficial".
 
 Path do modelo **não muda** sem avisar Vini e Edu: `models/baseline.joblib`.
 

@@ -400,6 +400,7 @@ Você faz o GitHub checar o código automaticamente, cria a “receita” (DAG) 
 - [x] Workflow no repositório (YAML) — `.github/workflows/ci.yml`
 - [x] Automação 1 (lint com flake8)
 - [x] Automação 2 (testes com pytest)
+- [x] Automação 3 (build da imagem Docker após lint e testes)
 - [x] Confirmar que o workflow roda no push/PR
 - [ ] Print ou link do run verde em `evidencias/` (após push no GitHub)
 
@@ -431,7 +432,7 @@ Você faz o GitHub checar o código automaticamente, cria a “receita” (DAG) 
 
 ### Checkpoint Edu A — “Automação e DAG existem”
 
-- [x] ≥ 2 automações no Actions (flake8 + pytest)
+- [x] ≥ 2 automações no Actions (flake8 + pytest + build Docker)
 - [x] DAG `.py` no repo (`dags/train_dag.py`)
 - [x] Seção cloud no README completa
 
@@ -531,6 +532,7 @@ Você junta as provas de que o projeto funciona e conta a história em até 5 mi
 - [ ] Print/link do GitHub Actions verde (após push no repositório remoto)
 - [ ] Demo da DAG (print ou gravação curta)
 - [x] Trechos de arquitetura / Compose / API documentados no README
+- [x] Roteiro de evidências e demonstração STAR — `evidencias/edu-entrega-star.md`
 
 #### E6. README final
 
@@ -546,10 +548,10 @@ Roteiro obrigatório:
 
 | Parte | O que cobrir | Status |
 |-------|--------------|--------|
-| **S — Situation** | Problema clínico: triagem rápida de laudos importa | `[ ]` |
-| **T — Task** | Requisitos: latência, CI/CD, monitoramento, etc. | `[ ]` |
-| **A — Action** | Arquitetura, otimização, monitoramento | `[ ]` |
-| **R — Result** | Pipeline funcionando, latência alcançada, lições | `[ ]` |
+| **S — Situation** | Problema clínico: triagem rápida de laudos importa | `[x]` roteiro em `evidencias/edu-entrega-star.md` |
+| **T — Task** | Requisitos: latência, CI/CD, monitoramento, etc. | `[x]` roteiro em `evidencias/edu-entrega-star.md` |
+| **A — Action** | Arquitetura, otimização, monitoramento | `[x]` roteiro em `evidencias/edu-entrega-star.md` |
+| **R — Result** | Pipeline funcionando, latência alcançada, lições | `[x]` roteiro em `evidencias/edu-entrega-star.md` |
 
 - [ ] Vídeo gravado (≤ 5 minutos)
 - [ ] Link do vídeo no README (ou local combinado pelo time)
@@ -718,3 +720,36 @@ LLM (OpenRouter etc.) é um **segundo extra** em cima desta page: só conversa; 
 - Deploy/execução: `.github/context/deployment.md`
 - Documentação por etapa: `docs/etapas/README.md` (regra: `.github/rules/documentation-rules.md`)
 - TODO linear do Vítor: `docs/etapas/Modelagem e otimização/TODO.md`
+
+---
+
+## Auditoria contra o PDF oficial
+
+**Fonte:** `docs/MLET - Tech Challenge Fase 3.pdf`
+**Última conferência:** 2026-09-07
+
+| Requisito do PDF | Evidência no repositório | Status |
+|---|---|---|
+| Workflow GitHub Actions com lint, teste e build | `.github/workflows/ci.yml` | `[x]` implementado; falta registrar um run verde remoto |
+| Pelo menos duas automações | jobs `validate` e `build` no workflow | `[x]` |
+| DAG Airflow funcional para ingestão e treino | `dags/train_dag.py` + `docs/etapas/CI-CD Airflow e documentacao/etapa-02.md` | `[x]` carregada localmente; falta evidência visual da execução |
+| Dockerfile da API | `Dockerfile` | `[x]` presente; build local depende do daemon Docker |
+| API FastAPI de classificação | `src/triage/api.py`, testes em `tests/test_api.py` | `[x]` |
+| Baseline de latência local | `evidencias/latency_baseline_summary.csv` | `[x]` |
+| Compose com API, Prometheus e Grafana | `docker-compose.yml` | `[x]` |
+| Métricas de chamadas e latência | `src/triage/api.py`, `monitoring/prometheus/` | `[x]` |
+| Dashboard Grafana com pelo menos três painéis | `evidencias/grafana_dashboard.json` e dashboards provisionados | `[x]` oito painéis |
+| Modelo NLP treinado | `models/baseline.joblib`, `src/triage/train.py` | `[x]` |
+| Otimização de latência | `models/baseline.onnx`, `src/models/onnx_export.py` | `[x]` ONNX Runtime |
+| Comparação baseline versus otimizado | `README.md`, `scripts/benchmark_latency*.py`, `evidencias/` | `[x]` |
+| README com arquitetura cloud batch versus real-time | seção "Decisão arquitetural em nuvem" em `README.md` | `[x]` |
+| Histórico de commits semântico e organizado | `git log` | `[x]` majoritariamente semântico; evitar novos tipos fora do Conventional Commits |
+| Vídeo STAR de até cinco minutos e link | roteiro em `evidencias/edu-entrega-star.md` | `[ ]` gravação e link ainda faltam |
+
+### Pendências que bloqueiam a entrega final
+
+- [ ] Executar o workflow no GitHub e guardar o link ou print de um run verde em `evidencias/`.
+- [ ] Executar a DAG no Airflow e guardar uma evidência visual ou log da execução.
+- [ ] Gravar o vídeo STAR com duração máxima de cinco minutos.
+- [ ] Adicionar o link do vídeo ao `README.md`.
+- [ ] Fazer a sanitização final do repositório: caches, segredos, links e arquivos temporários.
