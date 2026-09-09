@@ -29,12 +29,14 @@
 Essa validacao confirma a Opção 1 do README: API, Prometheus e Grafana
 executados juntos pelo Docker Compose no Rancher Desktop.
 
-## Pendencia externa
+## GitHub Actions
 
-O ultimo run publico do GitHub Actions ainda e o run 5, que falhou antes das correcoes atuais. As correcoes locais precisam ser publicadas para gerar um novo run verde:
+| Check | Resultado |
+|---|---|
+| Branch | `feat/cicd-airflow-pipeline` |
+| Commit | `624146f` — `fix: finaliza validacao da entrega` |
+| Workflow | [GitHub Actions #6](https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions/runs/34303445013) |
+| Resultado | `success` |
+| Jobs | `validate` e `build` aprovados |
 
-- Workflow: `.github/workflows/ci.yml`
-- Run anterior: https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions/runs/34167193869
-- Branch: `feat/cicd-airflow-pipeline`
-
-Esta evidencia registra somente resultados realmente executados localmente; nao afirma que o run remoto passou.
+Esta evidencia registra os checks locais, a stack executada no Rancher Desktop e o run remoto aprovado.

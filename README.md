@@ -236,10 +236,14 @@ pyproject.toml        # Dependências pinadas do projeto
 
 ---
 
-## Pendências de entrega
+## Status da entrega
 
 O código das quatro etapas está implementado e o vídeo STAR foi concluído.
 O vídeo está publicado no YouTube: [Assistir ao vídeo STAR](https://youtu.be/c3y5dipvKLQ).
+
+O workflow remoto do GitHub Actions também foi concluído com sucesso no
+[run #6](https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions/runs/34303445013),
+executando lint, testes e build da imagem Docker.
 
 As evidências técnicas estão em `evidencias/`. A matriz de conferência contra o PDF está em
 `docs/TODO.md`, na seção "Auditoria contra o PDF oficial".

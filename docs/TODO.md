@@ -402,7 +402,7 @@ Você faz o GitHub checar o código automaticamente, cria a “receita” (DAG) 
 - [x] Automação 2 (testes com pytest)
 - [x] Automação 3 (build da imagem Docker após lint e testes)
 - [x] Confirmar que o workflow roda no push/PR
-- [x] Validação local do workflow: lint e testes aprovados; novo run remoto será gerado após o push
+- [x] Run remoto aprovado — [GitHub Actions #6](https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions/runs/34303445013)
 
 **Entregável:** YAML do workflow + evidência de execução.
 
@@ -706,7 +706,7 @@ LLM (OpenRouter etc.) é um **segundo extra** em cima desta page: só conversa; 
 | Vítor | Trilha de modelagem e otimização ONNX concluída (CC-Vítor fechado) | — | — |
 | Vini | API FastAPI + Dockerfile + baseline concluídos (CA-Vini / CC-Demo fechados) | — | — |
 | Fernando | Stack de monitoramento (Prometheus + Grafana 8 painéis + Compose) concluída | — | — |
-| Edu | CI/CD, DAG Airflow, README e vídeo STAR concluídos | Aguardar novo run remoto após push | Entrega final |
+| Edu | CI/CD, DAG Airflow, README e vídeo STAR concluídos | — | Entrega final concluída |
 
 ---
 
@@ -729,7 +729,7 @@ LLM (OpenRouter etc.) é um **segundo extra** em cima desta page: só conversa; 
 
 | Requisito do PDF | Evidência no repositório | Status |
 |---|---|---|
-| Workflow GitHub Actions com lint, teste e build | `.github/workflows/ci.yml` + validação local | `[x]` implementado; novo run remoto após push |
+| Workflow GitHub Actions com lint, teste e build | `.github/workflows/ci.yml` + [run #6](https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions/runs/34303445013) | `[x]` aprovado remotamente |
 | Pelo menos duas automações | jobs `validate` e `build` no workflow | `[x]` |
 | DAG Airflow funcional para ingestão e treino | `dags/train_dag.py` + `evidencias/validacao-final.md` | `[x]` carregada e validada localmente |
 | Dockerfile da API | `Dockerfile` | `[x]` presente; build local depende do daemon Docker |
@@ -745,6 +745,7 @@ LLM (OpenRouter etc.) é um **segundo extra** em cima desta page: só conversa; 
 | Histórico de commits semântico e organizado | `git log` | `[x]` majoritariamente semântico; evitar novos tipos fora do Conventional Commits |
 | Vídeo STAR de até cinco minutos e link | vídeo concluído e publicado no YouTube | `[x]` https://youtu.be/c3y5dipvKLQ |
 
-### Pendência externa
+### Status final
 
-- [ ] Publicar o commit e confirmar o novo run verde do GitHub Actions. O último run remoto registrado falhou antes das correções atuais; os checks locais estão verdes.
+- [x] Commit publicado na branch `feat/cicd-airflow-pipeline`.
+- [x] GitHub Actions aprovado no [run #6](https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions/runs/34303445013).
