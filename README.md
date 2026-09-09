@@ -238,13 +238,21 @@ pyproject.toml        # Dependências pinadas do projeto
 
 ## Pendências de entrega
 
-O código das quatro etapas está implementado. Permanecem como pendências de
-entrega externa a execução verde registrada no GitHub Actions, a gravação do
-vídeo STAR de até cinco minutos e a inclusão do link do vídeo neste README.
+O código das quatro etapas está implementado e o vídeo STAR foi concluído.
+O vídeo está publicado no YouTube: [Assistir ao vídeo STAR](https://youtu.be/c3y5dipvKLQ).
 
-O roteiro e as evidências técnicas estão em
-`evidencias/edu-entrega-star.md`. A matriz de conferência contra o PDF está em
+As evidências técnicas estão em `evidencias/`. A matriz de conferência contra o PDF está em
 `docs/TODO.md`, na seção "Auditoria contra o PDF oficial".
+
+A stack completa foi validada no Rancher Desktop com `docker compose up -d
+--build`: API saudável em `http://localhost:8000`, Prometheus pronto em
+`http://localhost:9090` e Grafana disponível em `http://localhost:3000`. Os
+detalhes estão em `evidencias/validacao-final.md`.
+
+### Vídeo STAR
+
+Vídeo concluído no formato Situation, Task, Action e Result, com duração entre
+4 e 5 minutos. Link: [https://youtu.be/c3y5dipvKLQ](https://youtu.be/c3y5dipvKLQ).
 
 Path do modelo **não muda** sem avisar Vini e Edu: `models/baseline.joblib`.
 
