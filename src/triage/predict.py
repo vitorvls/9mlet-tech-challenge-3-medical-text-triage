@@ -69,6 +69,9 @@ def get_pipeline(model_path: Path | None = None) -> Pipeline:
     loaded = joblib.load(path)
     if not isinstance(loaded, Pipeline):
         raise TypeError(f"Expected sklearn Pipeline in {path}, got {type(loaded)}")
+    classifier = loaded.named_steps.get("clf")
+    if classifier is not None and not hasattr(classifier, "multi_class"):
+        classifier.multi_class = "auto"
     _pipeline = loaded
     _pipeline_path = path
     return _pipeline

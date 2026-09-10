@@ -19,6 +19,7 @@ A arquitetura atual do projeto cobre os principais blocos exigidos pelo desafio:
 - pipeline de treino e exportação via Apache Airflow
 - CI/CD com GitHub Actions
 - benchmark de desempenho original vs ONNX
+- Model Card com escopo, métricas, limitações e riscos
 - documentação de execução e arquitetura
 
 ```text
@@ -88,6 +89,10 @@ O workflow do GitHub Actions já executa:
 - instalação das dependências
 - lint com flake8
 - execução dos testes pytest
+- build da imagem Docker após lint e testes
+
+O histórico e os resultados das execuções estão disponíveis no
+[GitHub Actions](https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions).
 
 ### 6. Docker e execução local
 
@@ -228,6 +233,7 @@ monitoring/           # prometheus/prometheus.yml, grafana/ (provisioning + dash
 evidencias/           # grafana_dashboard.json, baseline de latência
 scripts/              # benchmark_latency.py, simulate_traffic.py
 docs/                 # quadro do time (TODO.md), dataset.md, etapas de cada integrante
+docs/model-card.md    # Model Card do modelo e das limitações conhecidas
 docker-compose.yml    # Orquestração API + Prometheus + Grafana
 Dockerfile            # Build multi-stage da API FastAPI
 pyproject.toml        # Dependências pinadas do projeto
@@ -235,10 +241,27 @@ pyproject.toml        # Dependências pinadas do projeto
 
 ---
 
-## Próximos passos do time
+## Status da entrega
 
-1. **Edu** — Actions (≥ 2 automações), DAG (`prepare_data` → `train` → `models/baseline.joblib`), evidências, vídeo STAR.
-2. **Vítor (Semana C)** — otimização de latência (proposta: ONNX) e tabela original vs otimizado.
+O código das quatro etapas está implementado e o vídeo STAR foi concluído.
+O vídeo está publicado no YouTube: [Assistir ao vídeo STAR](https://youtu.be/c3y5dipvKLQ).
+
+O workflow remoto do GitHub Actions também foi concluído com sucesso no
+[run #6](https://github.com/vitorvls/9mlet-tech-challenge-3-medical-text-triage/actions/runs/34303445013),
+executando lint, testes e build da imagem Docker.
+
+As evidências técnicas estão em `evidencias/`. A matriz de conferência contra o PDF está em
+`docs/TODO.md`, na seção "Auditoria contra o PDF oficial".
+
+A stack completa foi validada no Rancher Desktop com `docker compose up -d
+--build`: API saudável em `http://localhost:8000`, Prometheus pronto em
+`http://localhost:9090` e Grafana disponível em `http://localhost:3000`. Os
+detalhes estão em `evidencias/validacao-final.md`.
+
+### Vídeo STAR
+
+Vídeo concluído no formato Situation, Task, Action e Result, com duração entre
+4 e 5 minutos. Link: [https://youtu.be/c3y5dipvKLQ](https://youtu.be/c3y5dipvKLQ).
 
 Path do modelo **não muda** sem avisar Vini e Edu: `models/baseline.joblib`.
 
